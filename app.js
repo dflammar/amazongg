@@ -942,7 +942,7 @@
 
         // Add markers
         state.stores.forEach(store => {
-            if (store.lat && store.lng) {
+            if (store.lat && store.lng && !isNaN(store.lat) && !isNaN(store.lng)) {
                 const color = store.status === 'Store Active' ? '#00e676' : '#ff5252';
                 const marker = L.circleMarker([store.lat, store.lng], {
                     radius: 5,
@@ -966,7 +966,7 @@
         
         // Fit bounds
         const bounds = state.stores
-            .filter(s => s.lat && s.lng)
+            .filter(s => s.lat && s.lng && !isNaN(s.lat) && !isNaN(s.lng))
             .map(s => [s.lat, s.lng]);
         if (bounds.length > 0) {
             map.fitBounds(bounds, { padding: [20, 20] });
@@ -976,6 +976,13 @@
     function initMainMap() {
         if (state.maps.main) {
             state.maps.main.invalidateSize();
+            // Re-fit bounds
+            const bounds = state.stores
+                .filter(s => s.lat && s.lng && !isNaN(s.lat) && !isNaN(s.lng))
+                .map(s => [s.lat, s.lng]);
+            if (bounds.length > 0) {
+                state.maps.main.fitBounds(bounds, { padding: [30, 30] });
+            }
             return;
         }
 
@@ -994,11 +1001,14 @@
 
         // Fit bounds
         const bounds = state.stores
-            .filter(s => s.lat && s.lng)
+            .filter(s => s.lat && s.lng && !isNaN(s.lat) && !isNaN(s.lng))
             .map(s => [s.lat, s.lng]);
         if (bounds.length > 0) {
             map.fitBounds(bounds, { padding: [30, 30] });
         }
+        
+        // Force invalidateSize after initial render
+        setTimeout(() => map.invalidateSize(), 200);
     }
 
     function addMainMapMarkers(filter) {
@@ -1431,6 +1441,12 @@
     }
 
     function initEditMap(lat, lng) {
+        // Coordinate fallback if invalid or NaN
+        if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
+            lat = 31.22;
+            lng = 29.95;
+        }
+
         if (state.maps.edit) {
             state.maps.edit.remove();
         }
@@ -1771,7 +1787,7 @@
         // Init detail map if location tab
         if (id === 'store-detail-modal') {
             const store = state.stores.find(s => s.storeId === state.editingStoreId);
-            if (store) {
+            if (store && store.lat && store.lng && !isNaN(store.lat) && !isNaN(store.lng)) {
                 setTimeout(() => {
                     if (state.maps.detail) {
                         state.maps.detail.remove();
@@ -1815,14 +1831,14 @@
             p.classList.toggle('active', p.id === `page-${page}`);
         });
 
-        // Init page-specific maps
+        // Init page-specific maps (delay 500ms to allow CSS transitions to finish)
         if (page === 'map') {
-            setTimeout(() => initMainMap(), 100);
+            setTimeout(() => initMainMap(), 500);
         }
 
         // Refresh dashboard map
         if (page === 'dashboard' && state.maps.dashboard) {
-            setTimeout(() => state.maps.dashboard.invalidateSize(), 100);
+            setTimeout(() => state.maps.dashboard.invalidateSize(), 500);
         }
     }
 
