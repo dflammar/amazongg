@@ -946,32 +946,109 @@ html, body {
   .mobile-menu-btn { display: block; }
   .sidebar-toggle { display: block; }
   
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .page-header { flex-direction: column; align-items: flex-start; }
+  /* Top Header Mobile Wrap - Keep all buttons and search visible and tidy */
+  .top-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0.75rem 1rem;
+  }
+  .header-right {
+    order: 1;
+    flex: 1;
+  }
+  .header-left {
+    display: flex !important;
+    order: 2;
+  }
+  .header-center {
+    width: 100%;
+    order: 3;
+    margin: 0;
+  }
+  .search-global {
+    max-width: 100%;
+    width: 100%;
+  }
+  .search-global kbd { display: none; }
+  
+  /* Stats Cards Grid - 2x2 grid on mobile for compactness */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  .stat-card {
+    padding: 0.75rem 1rem !important;
+  }
+  .stat-number {
+    font-size: 1.15rem !important;
+  }
+  .stat-label {
+    font-size: 0.7rem !important;
+  }
+  
+  .page-header { flex-direction: column; align-items: flex-start; gap: 10px; }
   .page-actions { width: 100%; }
-  .filter-group { flex-wrap: wrap; width: 100%; }
-  .filter-select { flex: 1; min-width: 120px; }
+  .filter-group { flex-wrap: wrap; width: 100%; gap: 5px; }
+  .filter-select { flex: 1; min-width: 100px; padding: 0.4rem; font-size: 0.8rem; }
   
   .form-row { grid-template-columns: 1fr; }
   .detail-grid { grid-template-columns: 1fr; }
   .heatmap-grid { grid-template-columns: repeat(4, 1fr); }
   
+  /* Map View - Prevent gesture trapping on mobile */
   .map-wrapper { flex-direction: column; height: auto; }
-  .main-map { height: 400px; }
-  .map-sidebar { width: 100% !important; }
+  .main-map { height: 280px !important; }
+  .map-sidebar { width: 100% !important; position: relative; height: auto; max-height: 250px; }
   .map-sidebar.open { padding: 1rem; }
   
-  .header-left { display: none; }
-  .search-global { max-width: 100%; }
-  .search-global kbd { display: none; }
+  /* Data Table Mobile Column Hiding - Show only Name, Phone, Due, and Actions */
+  .data-table th:nth-child(1), .data-table td:nth-child(1), /* # */
+  .data-table th:nth-child(2), .data-table td:nth-child(2), /* Store ID */
+  .data-table th:nth-child(4), .data-table td:nth-child(4), /* Status */
+  .data-table th:nth-child(5), .data-table td:nth-child(5), /* City */
+  .data-table th:nth-child(6), .data-table td:nth-child(6), /* Radius */
+  .data-table th:nth-child(7), .data-table td:nth-child(7), /* Operating Days */
+  .data-table th:nth-child(8), .data-table td:nth-child(8), /* Max Capacity */
+  .data-table th:nth-child(11), .data-table td:nth-child(11), /* Rating */
+  .data-table th:nth-child(12), .data-table td:nth-child(12) /* Activation Date */ {
+    display: none !important;
+  }
+  
+  .data-table th, .data-table td {
+    padding: 0.6rem 0.5rem !important;
+    font-size: 0.78rem !important;
+  }
 }
 
 @media (max-width: 480px) {
-  .page-container { padding: 1rem; }
-  .stats-grid { grid-template-columns: 1fr; }
+  .page-container { padding: 0.75rem; }
   .stores-grid { grid-template-columns: 1fr; }
   .schedule-grid { grid-template-columns: 1fr; }
-  .modal-content { width: 100%; border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-height: 100vh; }
+  
+  /* Modals - Full screen bottom sheet style on mobile */
+  .modal-overlay {
+    align-items: flex-end;
+  }
+  .modal-content { 
+    width: 100% !important; 
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important; 
+    max-height: 90vh !important; 
+    margin-bottom: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  .modal-body {
+    padding: 1rem !important;
+  }
+  
+  .modal-footer {
+    padding: 0.75rem 1rem !important;
+  }
+  
+  .edit-map, .detail-map {
+    height: 180px !important;
+  }
 }
 
 /* ===== Login Lock Screen ===== */
