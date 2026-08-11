@@ -1866,16 +1866,30 @@
             item.addEventListener('click', (e) => {
                 e.preventDefault();
                 navigateTo(item.dataset.page);
+                document.getElementById('sidebar').classList.remove('mobile-open');
             });
         });
 
         // Sidebar toggle
         document.getElementById('sidebar-toggle').addEventListener('click', () => {
             document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('sidebar').classList.remove('mobile-open');
         });
 
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
             document.getElementById('sidebar').classList.toggle('mobile-open');
+        });
+
+        // Close mobile sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (sidebar && sidebar.classList.contains('mobile-open')) {
+                if (!sidebar.contains(e.target) && (!mobileMenuBtn || !mobileMenuBtn.contains(e.target))) {
+                    sidebar.classList.remove('mobile-open');
+                }
+            }
         });
 
         // Search
