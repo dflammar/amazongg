@@ -247,6 +247,11 @@
                 }
             });
             
+            state.stores.forEach(s => {
+                s.lat = parseFloat(s.lat) || 0;
+                s.lng = parseFloat(s.lng) || 0;
+            });
+            
             state.filteredStores = [...state.stores];
             
             if (saveToStorage) {
@@ -305,6 +310,10 @@
                 const data = await cloudResponse.json();
                 if (data.success && data.stores && data.stores.length > 0) {
                     state.stores = data.stores;
+                    state.stores.forEach(s => {
+                        s.lat = parseFloat(s.lat) || 0;
+                        s.lng = parseFloat(s.lng) || 0;
+                    });
                     state.filteredStores = [...state.stores];
                     
                     // Save to local storage as fallback
@@ -329,6 +338,10 @@
         if (savedStores) {
             try {
                 state.stores = JSON.parse(savedStores);
+                state.stores.forEach(s => {
+                    s.lat = parseFloat(s.lat) || 0;
+                    s.lng = parseFloat(s.lng) || 0;
+                });
                 state.filteredStores = [...state.stores];
                 
                 // Hide loading screen and init dashboard

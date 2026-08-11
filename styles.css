@@ -1018,7 +1018,13 @@ html, body {
   
   /* Map View - Prevent collapse and fix sidebar hiding on mobile */
   .map-wrapper { flex-direction: column; height: auto; display: flex !important; }
-  .main-map { height: 280px !important; width: 100% !important; display: block !important; }
+  .main-map { 
+    height: 300px !important; 
+    min-height: 300px !important; 
+    width: 100% !important; 
+    display: block !important; 
+    flex: none !important; 
+  }
   .map-sidebar { 
     width: 100% !important; 
     position: relative; 
