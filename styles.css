@@ -993,13 +993,56 @@ html, body {
   
   .form-row { grid-template-columns: 1fr; }
   .detail-grid { grid-template-columns: 1fr; }
-  .heatmap-grid { grid-template-columns: repeat(4, 1fr); }
   
-  /* Map View - Prevent gesture trapping on mobile */
-  .map-wrapper { flex-direction: column; height: auto; }
-  .main-map { height: 280px !important; }
-  .map-sidebar { width: 100% !important; position: relative; height: auto; max-height: 250px; }
-  .map-sidebar.open { padding: 1rem; }
+  /* Heatmap Mobile Scaling */
+  .heatmap-grid { grid-template-columns: repeat(4, 1fr); gap: 0.35rem; }
+  .heatmap-cell { padding: 0.4rem !important; }
+  .heatmap-count { font-size: 1.1rem !important; }
+  .heatmap-day { font-size: 0.7rem !important; }
+  
+  /* Capacity Bars Wrap on Mobile */
+  .capacity-bar-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .capacity-bar-label {
+    width: 100% !important;
+    text-align: right !important;
+    font-weight: 600;
+  }
+  .capacity-bar-track {
+    height: 18px !important;
+  }
+  
+  /* Map View - Prevent collapse and fix sidebar hiding on mobile */
+  .map-wrapper { flex-direction: column; height: auto; display: flex !important; }
+  .main-map { height: 280px !important; width: 100% !important; display: block !important; }
+  .map-sidebar { 
+    width: 100% !important; 
+    position: relative; 
+    height: 0; 
+    max-height: 0; 
+    overflow: hidden; 
+    border: none;
+    padding: 0;
+    transition: all var(--transition);
+  }
+  .map-sidebar.open { 
+    height: auto; 
+    max-height: 250px; 
+    padding: 1rem; 
+    border: 1px solid var(--card-border);
+  }
+  
+  /* Global Canvas Responsiveness for Charts */
+  canvas, .card-body canvas, .chart-card canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+  }
   
   /* Data Table Mobile Column Hiding - Show only Name, Phone, Due, and Actions */
   .data-table th:nth-child(1), .data-table td:nth-child(1), /* # */
