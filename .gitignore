@@ -1,0 +1,4 @@
+# Local files and script caches
+read_excel.py
+.DS_Store
+Thumbs.db

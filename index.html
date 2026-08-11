@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="نظام إدارة محلات أمازون - لوحة تحكم احترافية لإدارة ومتابعة جميع المحلات">
+    <title>Ammar Hub dp | نظام إدارة المحلات - Amazon Logistics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-boxes-stacked"></i>
+            </div>
+            <h2>Ammar Hub dp</h2>
+            <p>جاري تحميل بيانات المحلات...</p>
+            <div class="loading-bar">
+                <div class="loading-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Lock Screen -->
+    <div id="login-lock-screen" class="login-lock-screen">
+        <div class="login-card">
+            <div class="login-logo-icon">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h2>بوابة الوصول الآمن</h2>
+            <p>أدخل الرقم السري المؤقت الخاص بك للدخول إلى لوحة التحكم</p>
+            
+            <div class="form-group" style="margin-top: 20px; text-align: right;">
+                <label for="login-password" style="font-size:0.8rem;color:var(--text-secondary);font-weight:500;margin-bottom:5px;display:block;">الرقم السري</label>
+                <input type="password" id="login-password" placeholder="أدخل الرقم السري" style="text-align: center; letter-spacing: 1px; padding: 0.7rem;">
+            </div>
+            
+            <button class="btn btn-primary" id="login-submit-btn" style="width: 100%; margin-top: 15px; padding: 0.8rem; font-family: var(--font-ar); font-size: 0.95rem;">
+                <i class="fas fa-sign-in-alt" style="margin-left: 5px;"></i> تسجيل الدخول
+            </button>
+            
+            <div id="login-error-msg" class="login-error-msg"></div>
+            
+            <div class="login-footer">
+                <span style="font-weight: bold; color: var(--primary);">تم إنشاء وبرمجته بواسطة المهندس عمار محمود</span>
+                <span style="color: var(--text-muted); font-size: 0.7rem; direction: ltr; margin-top: 2px;">moammary@amazon.com</span>
+                <span class="login-en" style="margin-top: 10px;">Ammar Hub dp &copy; 2026</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main Layout -->
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-boxes-stacked"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Ammar Hub dp</h1>
+                        <span>Store Management</span>
+                    </div>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-page="dashboard">
+                        <a href="#dashboard">
+                            <i class="fas fa-chart-line"></i>
+                            <span>لوحة التحكم</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="stores">
+                        <a href="#stores">
+                            <i class="fas fa-store"></i>
+                            <span>جميع المحلات</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="map">
+                        <a href="#map">
+                            <i class="fas fa-map-location-dot"></i>
+                            <span>خريطة المحلات</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="analytics">
+                        <a href="#analytics">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>التحليلات</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="schedule">
+                        <a href="#schedule">
+                            <i class="fas fa-calendar-days"></i>
+                            <span>جدول التوصيل</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">مدير المحلات</span>
+                        <span class="user-role">DEX5 Station</span>
+                </div>
+                <div class="dev-credits" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.06); font-size: 0.72rem; text-align: center; color: var(--text-secondary);">
+                    <div style="font-weight: bold; color: var(--primary);">تم إنشاء وبرمجته بواسطة</div>
+                    <div style="color: var(--text-primary); font-weight: 600; margin-top: 2px;">المهندس عمار محمود</div>
+                    <a href="mailto:moammary@amazon.com" style="display: block; font-size: 0.65rem; color: var(--info); font-family: var(--font-en); margin-top: 2px; text-decoration: none;">
+                        <i class="fas fa-envelope" style="margin-left: 2px;"></i> moammary@amazon.com
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-right">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-global">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="global-search" placeholder="ابحث عن محل بالاسم أو الكود...">
+                        <kbd>Ctrl+K</kbd>
+                    </div>
+                </div>
+                <div class="header-left">
+                    <div class="header-actions">
+                        <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+                        <button class="header-btn" id="import-btn" title="استيراد ملف CSV">
+                            <i class="fas fa-file-import"></i>
+                        </button>
+                        <button class="header-btn" id="export-btn" title="تصدير البيانات">
+                            <i class="fas fa-file-export"></i>
+                        </button>
+                        <button class="header-btn" id="reset-data-btn" title="إعادة تعيين البيانات الافتراضية">
+                            <i class="fas fa-rotate-left"></i>
+                        </button>
+                        <button class="header-btn notification-btn" id="notification-btn" title="الإشعارات">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notification-badge">3</span>
+                        </button>
+                        <button class="header-btn theme-toggle" id="theme-toggle" title="تغيير المظهر">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                    <div class="current-datetime">
+                        <span id="current-date"></span>
+                        <span id="current-time"></span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content Container -->
+            <div class="page-container">
+
+                <!-- ===== DASHBOARD PAGE ===== -->
+                <section class="page active" id="page-dashboard">
+                    <!-- Stats Cards Row -->
+                    <div class="stats-grid">
+                        <div class="stat-card" data-stat="total">
+                            <div class="stat-icon total">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">إجمالي المحلات</span>
+                                <span class="stat-value" id="stat-total">0</span>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>100%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" data-stat="active">
+                            <div class="stat-icon active">
+                                <i class="fas fa-circle-check"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">محلات نشطة</span>
+                                <span class="stat-value" id="stat-active">0</span>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span id="active-percent">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" data-stat="inactive">
+                            <div class="stat-icon inactive">
+                                <i class="fas fa-circle-xmark"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">محلات غير نشطة</span>
+                                <span class="stat-value" id="stat-inactive">0</span>
+                            </div>
+                            <div class="stat-trend down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span id="inactive-percent">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" data-stat="radius">
+                            <div class="stat-icon radius" style="background:rgba(255,153,0,0.1);color:var(--primary);border:1px solid rgba(255,153,0,0.2);">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">إجمالي المستحقات (المديونية)</span>
+                                <span class="stat-value" id="stat-total-due">0</span>
+                                <span class="stat-unit">ج.م</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Grid -->
+                    <div class="dashboard-grid">
+                        <!-- Mini Map -->
+                        <div class="card dashboard-map-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-map-location-dot"></i> خريطة المحلات</h3>
+                                <button class="card-action-btn" onclick="navigateTo('map')">
+                                    عرض الخريطة الكاملة <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div id="dashboard-map" class="dashboard-map"></div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Stores -->
+                        <div class="card recent-stores-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-clock-rotate-left"></i> أحدث المحلات المفعلة</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="recent-stores-list" id="recent-stores-list">
+                                    <!-- Filled by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Distribution -->
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-pie"></i> توزيع الحالات</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="donut-chart-container">
+                                    <canvas id="status-chart" width="250" height="250"></canvas>
+                                    <div class="chart-center-text">
+                                        <span class="chart-center-value" id="chart-center-value">0</span>
+                                        <span class="chart-center-label">محل</span>
+                                    </div>
+                                </div>
+                                <div class="chart-legend" id="chart-legend"></div>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Radius Distribution -->
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> توزيع نطاق التوصيل</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="radius-chart" width="400" height="250"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Capacity Overview -->
+                        <div class="card capacity-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-box-open"></i> نظرة عامة على السعة</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="capacity-stats" id="capacity-stats">
+                                    <!-- Filled by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== STORES PAGE ===== -->
+                <section class="page" id="page-stores">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-store"></i> جميع المحلات</h2>
+                            <span class="page-subtitle" id="stores-count-label">0 محل</span>
+                        </div>
+                        <div class="page-actions">
+                            <div class="filter-group">
+                                <select id="filter-status" class="filter-select">
+                                    <option value="all">جميع الحالات</option>
+                                    <option value="Store Active">نشط</option>
+                                    <option value="Store Inactive">غير نشط</option>
+                                </select>
+                                <select id="filter-city" class="filter-select">
+                                    <option value="all">جميع المدن</option>
+                                </select>
+                                <select id="filter-radius" class="filter-select">
+                                    <option value="all">جميع النطاقات</option>
+                                    <option value="375">375 متر</option>
+                                    <option value="400">400 متر</option>
+                                    <option value="500">500 متر</option>
+                                    <option value="2000">2000 متر</option>
+                                </select>
+                            </div>
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table" title="عرض جدول">
+                                    <i class="fas fa-table-list"></i>
+                                </button>
+                                <button class="view-btn" data-view="grid" title="عرض شبكة">
+                                    <i class="fas fa-grip"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-primary" id="add-store-btn">
+                                <i class="fas fa-plus"></i>
+                                إضافة محل جديد
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table View -->
+                    <div class="table-container" id="table-view">
+                        <table class="data-table" id="stores-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-sort="index">#</th>
+                                    <th class="sortable" data-sort="storeId">Store ID</th>
+                                    <th class="sortable" data-sort="storeName">اسم المحل</th>
+                                    <th class="sortable" data-sort="status">الحالة</th>
+                                    <th class="sortable" data-sort="city">المدينة</th>
+                                    <th class="sortable" data-sort="deliveryRadius">نطاق التوصيل</th>
+                                    <th class="sortable" data-sort="operatingDays">أيام العمل</th>
+                                    <th class="sortable" data-sort="maxCapacity">أقصى سعة</th>
+                                    <th class="sortable" data-sort="phone">الهاتف</th>
+                                    <th class="sortable" data-sort="dueAmount">المديونية</th>
+                                    <th class="sortable" data-sort="rating">التقييم</th>
+                                    <th class="sortable" data-sort="activationDate">تاريخ التفعيل</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stores-table-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Grid View -->
+                    <div class="grid-container hidden" id="grid-view">
+                        <div class="stores-grid" id="stores-grid">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <button class="page-btn" id="prev-page" disabled>
+                            <i class="fas fa-chevron-right"></i>
+                            السابق
+                        </button>
+                        <div class="page-numbers" id="page-numbers">
+                            <!-- Filled by JS -->
+                        </div>
+                        <button class="page-btn" id="next-page">
+                            التالي
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <select class="per-page-select" id="per-page-select">
+                            <option value="10">10 لكل صفحة</option>
+                            <option value="25" selected>25 لكل صفحة</option>
+                            <option value="50">50 لكل صفحة</option>
+                            <option value="100">100 لكل صفحة</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- ===== MAP PAGE ===== -->
+                <section class="page" id="page-map">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-map-location-dot"></i> خريطة المحلات</h2>
+                            <span class="page-subtitle">عرض جميع المحلات على الخريطة</span>
+                        </div>
+                        <div class="page-actions">
+                            <div class="map-controls">
+                                <button class="btn btn-outline" id="show-all-markers" title="عرض جميع المحلات">
+                                    <i class="fas fa-expand"></i> عرض الكل
+                                </button>
+                                <button class="btn btn-outline" id="show-active-only" title="المحلات النشطة فقط">
+                                    <i class="fas fa-filter"></i> النشطة فقط
+                                </button>
+                                <button class="btn btn-outline" id="show-inactive-only" title="المحلات الغير نشطة فقط">
+                                    <i class="fas fa-filter"></i> الغير نشطة فقط
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="map-wrapper">
+                        <div id="main-map" class="main-map"></div>
+                        <div class="map-sidebar" id="map-sidebar">
+                            <div class="map-sidebar-header">
+                                <h4>تفاصيل المحل</h4>
+                                <button class="close-sidebar-btn" id="close-map-sidebar">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="map-sidebar-content" id="map-sidebar-content">
+                                <p class="map-sidebar-placeholder">اضغط على أي محل على الخريطة لعرض تفاصيله</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== ANALYTICS PAGE ===== -->
+                <section class="page" id="page-analytics">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-chart-pie"></i> التحليلات</h2>
+                            <span class="page-subtitle">تحليل شامل لبيانات المحلات</span>
+                        </div>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> المحلات حسب المدينة</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="city-chart" width="500" height="300"></canvas>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line"></i> تواريخ التفعيل</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="activation-chart" width="500" height="300"></canvas>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-layer-group"></i> مقارنة السعات</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="capacity-bars" id="capacity-bars"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-calendar-check"></i> أيام العمل الأكثر شيوعاً</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="day-heatmap" id="day-heatmap"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== SCHEDULE PAGE ===== -->
+                <section class="page" id="page-schedule">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-calendar-days"></i> جدول التوصيل</h2>
+                            <span class="page-subtitle">جدول نوافذ التوصيل لجميع المحلات</span>
+                        </div>
+                    </div>
+                    <div class="schedule-container">
+                        <div class="schedule-filters">
+                            <select id="schedule-store-filter" class="filter-select">
+                                <option value="all">جميع المحلات</option>
+                            </select>
+                            <select id="schedule-day-filter" class="filter-select">
+                                <option value="all">جميع الأيام</option>
+                                <option value="MONDAY">الاثنين</option>
+                                <option value="TUESDAY">الثلاثاء</option>
+                                <option value="WEDNESDAY">الأربعاء</option>
+                                <option value="THURSDAY">الخميس</option>
+                                <option value="FRIDAY">الجمعة</option>
+                                <option value="SATURDAY">السبت</option>
+                                <option value="SUNDAY">الأحد</option>
+                            </select>
+                        </div>
+                        <div class="schedule-grid" id="schedule-grid">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Store Detail Modal -->
+    <div class="modal-overlay" id="store-detail-modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="modal-store-name">تفاصيل المحل</h3>
+                <button class="modal-close" id="close-detail-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button class="modal-tab active" data-tab="info">
+                        <i class="fas fa-info-circle"></i> معلومات عامة
+                    </button>
+                    <button class="modal-tab" data-tab="schedule">
+                        <i class="fas fa-calendar"></i> جدول التوصيل
+                    </button>
+                    <button class="modal-tab" data-tab="location">
+                        <i class="fas fa-map-marker-alt"></i> الموقع
+                    </button>
+                </div>
+                <div class="modal-tab-content active" id="tab-info">
+                    <div class="detail-grid" id="detail-info-grid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+                <div class="modal-tab-content" id="tab-schedule">
+                    <div class="schedule-table-container" id="detail-schedule">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+                <div class="modal-tab-content" id="tab-location">
+                    <div id="detail-map" class="detail-map"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="close-detail-btn">إغلاق</button>
+                <button class="btn btn-primary" id="edit-from-detail-btn">
+                    <i class="fas fa-pen"></i> تعديل
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Store Modal -->
+    <div class="modal-overlay" id="edit-store-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="edit-modal-title">إضافة محل جديد</h3>
+                <button class="modal-close" id="close-edit-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="store-form" class="store-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-store-id">Store ID</label>
+                            <input type="text" id="edit-store-id" placeholder="أدخل رقم المحل">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-store-name">اسم المحل</label>
+                            <input type="text" id="edit-store-name" placeholder="أدخل اسم المحل">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-status">الحالة</label>
+                            <select id="edit-status">
+                                <option value="Store Active">نشط</option>
+                                <option value="Store Inactive">غير نشط</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-city">المدينة</label>
+                            <input type="text" id="edit-city" placeholder="أدخل المدينة">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-state">المنطقة</label>
+                            <input type="text" id="edit-state" value="Al Iskandarīyah">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-zipcode">الرمز البريدي</label>
+                            <input type="text" id="edit-zipcode" value="00000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-lat">خط العرض (Latitude)</label>
+                            <input type="number" step="any" id="edit-lat" placeholder="31.2xxx">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lng">خط الطول (Longitude)</label>
+                            <input type="number" step="any" id="edit-lng" placeholder="29.9xxx">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-radius">نطاق التوصيل (متر)</label>
+                            <select id="edit-radius">
+                                <option value="375 METRE">375 متر</option>
+                                <option value="400 METRE">400 متر</option>
+                                <option value="500 METRE">500 متر</option>
+                                <option value="2000 METRE">2000 متر</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-station">كود المحطة</label>
+                            <input type="text" id="edit-station" value="DEX5" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-email"><i class="fas fa-envelope" style="color:var(--primary);margin-left:4px;font-size:0.8rem;"></i> البريد الإلكتروني</label>
+                            <input type="email" id="edit-email" placeholder="example@gmail.com" dir="ltr">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-phone"><i class="fas fa-phone" style="color:var(--primary);margin-left:4px;font-size:0.8rem;"></i> رقم الهاتف</label>
+                            <input type="text" id="edit-phone" placeholder="01xxxxxxxxx" dir="ltr">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-due"><i class="fas fa-money-bill-wave" style="color:var(--primary);margin-left:4px;font-size:0.8rem;"></i> المديونية (المستحقات بـ ج.م)</label>
+                            <input type="number" id="edit-due" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-rating"><i class="fas fa-star" style="color:var(--primary);margin-left:4px;font-size:0.8rem;"></i> التقييم</label>
+                            <select id="edit-rating">
+                                <option value="5">5.0 نجوم (ممتاز)</option>
+                                <option value="4.5">4.5 نجوم</option>
+                                <option value="4">4.0 نجوم</option>
+                                <option value="3.5">3.5 نجوم</option>
+                                <option value="3">3.0 نجوم</option>
+                                <option value="2">2.0 نجوم</option>
+                                <option value="1">1.0 نجمة</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-operating-days">أيام العمل</label>
+                        <div class="days-checkboxes" id="edit-days-checkboxes">
+                            <label class="day-checkbox"><input type="checkbox" value="M" checked> الاثنين</label>
+                            <label class="day-checkbox"><input type="checkbox" value="T" checked> الثلاثاء</label>
+                            <label class="day-checkbox"><input type="checkbox" value="W" checked> الأربعاء</label>
+                            <label class="day-checkbox"><input type="checkbox" value="T2" checked> الخميس</label>
+                            <label class="day-checkbox"><input type="checkbox" value="F"> الجمعة</label>
+                            <label class="day-checkbox"><input type="checkbox" value="S" checked> السبت</label>
+                            <label class="day-checkbox"><input type="checkbox" value="S2" checked> الأحد</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-max-capacity">أقصى سعة (SW1)</label>
+                            <input type="number" id="edit-max-capacity" placeholder="25">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-coverage">التغطية</label>
+                            <input type="number" id="edit-coverage" placeholder="450">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>الموقع على الخريطة (اضغط لتحديد)</label>
+                        <div id="edit-map" class="edit-map"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-edit-btn">إلغاء</button>
+                <button class="btn btn-primary" id="save-store-btn">
+                    <i class="fas fa-save"></i> حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header danger">
+                <h3><i class="fas fa-exclamation-triangle"></i> تأكيد الحذف</h3>
+                <button class="modal-close" id="close-delete-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="delete-message">هل أنت متأكد من حذف المحل <strong id="delete-store-name"></strong>؟</p>
+                <p class="delete-warning">هذا الإجراء لا يمكن التراجع عنه.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-delete-btn">إلغاء</button>
+                <button class="btn btn-danger" id="confirm-delete-btn">
+                    <i class="fas fa-trash"></i> حذف
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fab-add" title="إضافة محل جديد">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

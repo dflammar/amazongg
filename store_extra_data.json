@@ -1,0 +1,603 @@
+{
+    "8638059992": {
+        "totalCod": 760357.2399999999,
+        "dueAmount": 168609.24,
+        "unreconciledPercent": 22.18,
+        "phone": "01141087184",
+        "maxCapacity": 70
+    },
+    "2960600661": {
+        "totalCod": 667966.0700000001,
+        "dueAmount": 166685.07,
+        "unreconciledPercent": 24.95,
+        "phone": "01141087184",
+        "maxCapacity": 70
+    },
+    "4197522754": {
+        "totalCod": 778288.6800000002,
+        "dueAmount": 153401.68,
+        "unreconciledPercent": 19.71,
+        "phone": "01141087184",
+        "maxCapacity": 70
+    },
+    "9377657720": {
+        "totalCod": 399169.17,
+        "dueAmount": 110529.17,
+        "unreconciledPercent": 27.69,
+        "phone": "01141087184",
+        "maxCapacity": 70
+    },
+    "4126454127": {
+        "totalCod": 361997.9,
+        "dueAmount": 109502.9,
+        "unreconciledPercent": 30.25,
+        "phone": "01113077794",
+        "maxCapacity": 30
+    },
+    "5717666393": {
+        "totalCod": 1167722.8599999999,
+        "dueAmount": 108754.86,
+        "unreconciledPercent": 9.31,
+        "phone": "01009296279",
+        "maxCapacity": 70
+    },
+    "6376233374": {
+        "totalCod": 256864.27,
+        "dueAmount": 92847.27,
+        "unreconciledPercent": 36.15,
+        "phone": "01225405993",
+        "maxCapacity": 40
+    },
+    "9884842152": {
+        "totalCod": 232000.51,
+        "dueAmount": 85000.51,
+        "unreconciledPercent": 36.64,
+        "phone": "01281373006",
+        "maxCapacity": 30
+    },
+    "1385400645": {
+        "totalCod": 398562.6899999999,
+        "dueAmount": 78785.69,
+        "unreconciledPercent": 19.77,
+        "phone": "01141087184",
+        "maxCapacity": 60
+    },
+    "8578470998": {
+        "totalCod": 1201698.7599999998,
+        "dueAmount": 78270.76,
+        "unreconciledPercent": 6.51,
+        "phone": "01141087184",
+        "maxCapacity": 70
+    },
+    "9735452235": {
+        "totalCod": 252369.23,
+        "dueAmount": 67546.23,
+        "unreconciledPercent": 26.76,
+        "phone": "",
+        "maxCapacity": 15
+    },
+    "1228844307": {
+        "totalCod": 409785.3199999999,
+        "dueAmount": 64531.32,
+        "unreconciledPercent": 15.75,
+        "phone": "01113077794",
+        "maxCapacity": 30
+    },
+    "2957899808": {
+        "totalCod": 498858.9799999999,
+        "dueAmount": 60785.48,
+        "unreconciledPercent": 12.18,
+        "phone": "01288399568",
+        "maxCapacity": 30
+    },
+    "3710022338": {
+        "totalCod": 108280.22,
+        "dueAmount": 53490.22,
+        "unreconciledPercent": 49.4
+    },
+    "7649403763": {
+        "totalCod": 352031.20000000007,
+        "dueAmount": 48829.2,
+        "unreconciledPercent": 13.87,
+        "phone": "0100447751",
+        "maxCapacity": 30
+    },
+    "2394073037": {
+        "totalCod": 811977.7400000001,
+        "dueAmount": 47409.74,
+        "unreconciledPercent": 5.84,
+        "phone": "01093288230",
+        "maxCapacity": 70
+    },
+    "8350300197": {
+        "totalCod": 75337.70999999999,
+        "dueAmount": 46487.71,
+        "unreconciledPercent": 61.71
+    },
+    "5104266348": {
+        "totalCod": 157682.53000000003,
+        "dueAmount": 44987.53,
+        "unreconciledPercent": 28.53
+    },
+    "9421433420": {
+        "totalCod": 1369638.6700000002,
+        "dueAmount": 44948.67,
+        "unreconciledPercent": 3.28,
+        "phone": "01093288230",
+        "maxCapacity": 45
+    },
+    "8437053544": {
+        "totalCod": 1302531.9299999997,
+        "dueAmount": 44486.18,
+        "unreconciledPercent": 3.42,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "4937562082": {
+        "totalCod": 1250081.16,
+        "dueAmount": 44411.16,
+        "unreconciledPercent": 3.55,
+        "phone": "01285476927",
+        "maxCapacity": 40
+    },
+    "9035637147": {
+        "totalCod": 331555.05,
+        "dueAmount": 36340.05,
+        "unreconciledPercent": 10.96,
+        "phone": "01221568767",
+        "maxCapacity": 30
+    },
+    "7775011772": {
+        "totalCod": 260288.01,
+        "dueAmount": 32955.01,
+        "unreconciledPercent": 12.66,
+        "phone": "01034883067",
+        "maxCapacity": 20
+    },
+    "9133473426": {
+        "totalCod": 141326.87,
+        "dueAmount": 31936.87,
+        "unreconciledPercent": 22.6
+    },
+    "9951235440": {
+        "totalCod": 1345859.7099999995,
+        "dueAmount": 24262.71,
+        "unreconciledPercent": 1.8,
+        "phone": "01007914672",
+        "maxCapacity": 70
+    },
+    "8408983777": {
+        "totalCod": 283846.1099999999,
+        "dueAmount": 23403.11,
+        "unreconciledPercent": 8.24,
+        "phone": "01015182368",
+        "maxCapacity": 35
+    },
+    "3671590930": {
+        "totalCod": 710078.32,
+        "dueAmount": 22507.32,
+        "unreconciledPercent": 3.17,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "7567541152": {
+        "totalCod": 715622.26,
+        "dueAmount": 21550.26,
+        "unreconciledPercent": 3.01,
+        "phone": "01221568767",
+        "maxCapacity": 30
+    },
+    "5105389640": {
+        "totalCod": 1839822.69,
+        "dueAmount": 20718.25,
+        "unreconciledPercent": 1.13,
+        "phone": "01275137530",
+        "maxCapacity": 70
+    },
+    "5353831907": {
+        "totalCod": 1784841.9000000006,
+        "dueAmount": 19595.65,
+        "unreconciledPercent": 1.1,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "5608949960": {
+        "totalCod": 1571337.0,
+        "dueAmount": 17639.0,
+        "unreconciledPercent": 1.12,
+        "phone": "01220346768",
+        "maxCapacity": 70
+    },
+    "4712586433": {
+        "totalCod": 1889013.31,
+        "dueAmount": 17590.31,
+        "unreconciledPercent": 0.93,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "8919345927": {
+        "totalCod": 249868.48,
+        "dueAmount": 17335.48,
+        "unreconciledPercent": 6.94,
+        "phone": "01015182368",
+        "maxCapacity": 35
+    },
+    "3704402730": {
+        "totalCod": 611765.0100000002,
+        "dueAmount": 16665.01,
+        "unreconciledPercent": 2.72,
+        "phone": "01282009978",
+        "maxCapacity": 30
+    },
+    "7484062773": {
+        "totalCod": 918910.17,
+        "dueAmount": 15995.17,
+        "unreconciledPercent": 1.74,
+        "phone": "01229272377",
+        "maxCapacity": 50
+    },
+    "3494052535": {
+        "totalCod": 81782.47,
+        "dueAmount": 14772.47,
+        "unreconciledPercent": 18.06
+    },
+    "9488002681": {
+        "totalCod": 34006.07,
+        "dueAmount": 14496.07,
+        "unreconciledPercent": 42.63
+    },
+    "2869596875": {
+        "totalCod": 1922785.5599999998,
+        "dueAmount": 13732.56,
+        "unreconciledPercent": 0.71,
+        "phone": "",
+        "maxCapacity": 70
+    },
+    "3976106944": {
+        "totalCod": 356941.61,
+        "dueAmount": 13408.61,
+        "unreconciledPercent": 3.76,
+        "phone": "01061018006",
+        "maxCapacity": 30
+    },
+    "5361325787": {
+        "totalCod": 973545.2000000001,
+        "dueAmount": 12199.2,
+        "unreconciledPercent": 1.25,
+        "phone": "01273337569",
+        "maxCapacity": 40
+    },
+    "2448666054": {
+        "totalCod": 957647.5100000001,
+        "dueAmount": 10630.51,
+        "unreconciledPercent": 1.11,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 50
+    },
+    "8739400810": {
+        "totalCod": 395966.61999999994,
+        "dueAmount": 10071.62,
+        "unreconciledPercent": 2.54,
+        "phone": "01093796947",
+        "maxCapacity": 30
+    },
+    "6962867409": {
+        "totalCod": 1340176.2300000002,
+        "dueAmount": 9888.23,
+        "unreconciledPercent": 0.74,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "5342604470": {
+        "totalCod": 291046.29,
+        "dueAmount": 8438.29,
+        "unreconciledPercent": 2.9,
+        "phone": "01093796947",
+        "maxCapacity": 30
+    },
+    "9542194283": {
+        "totalCod": 292263.86,
+        "dueAmount": 6869.86,
+        "unreconciledPercent": 2.35,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 20
+    },
+    "7667879622": {
+        "totalCod": 37583.909999999996,
+        "dueAmount": 5892.91,
+        "unreconciledPercent": 15.68
+    },
+    "1368688739": {
+        "totalCod": 81408.93999999999,
+        "dueAmount": 4993.94,
+        "unreconciledPercent": 6.13
+    },
+    "3358752758": {
+        "totalCod": 328588.05,
+        "dueAmount": 4860.05,
+        "unreconciledPercent": 1.48,
+        "phone": "01007914672",
+        "maxCapacity": 30
+    },
+    "3297312970": {
+        "totalCod": 761708.9,
+        "dueAmount": 4525.9,
+        "unreconciledPercent": 0.59,
+        "phone": "01289654776",
+        "maxCapacity": 40
+    },
+    "9123848905": {
+        "totalCod": 429715.38999999996,
+        "dueAmount": 2643.89,
+        "unreconciledPercent": 0.62,
+        "phone": "01093288230",
+        "maxCapacity": 30
+    },
+    "3990842874": {
+        "totalCod": 95694.26,
+        "dueAmount": 2509.26,
+        "unreconciledPercent": 2.62
+    },
+    "8320226745": {
+        "totalCod": 1586220.62,
+        "dueAmount": 1531.62,
+        "unreconciledPercent": 0.1,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "8463737398": {
+        "totalCod": 85381.48,
+        "dueAmount": 1281.48,
+        "unreconciledPercent": 1.5,
+        "phone": ""
+    },
+    "3051255188": {
+        "totalCod": 187355.46000000002,
+        "dueAmount": 1278.46,
+        "unreconciledPercent": 0.68,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 20
+    },
+    "4483899565": {
+        "totalCod": 914876.94,
+        "dueAmount": 1134.94,
+        "unreconciledPercent": 0.12,
+        "phone": "01273337569",
+        "maxCapacity": 30
+    },
+    "5033808212": {
+        "totalCod": 1552878.58,
+        "dueAmount": 902.08,
+        "unreconciledPercent": 0.06,
+        "phone": "01097013153",
+        "maxCapacity": 50
+    },
+    "5196854048": {
+        "totalCod": 378062.14999999997,
+        "dueAmount": 857.15,
+        "unreconciledPercent": 0.23,
+        "phone": "01273337569",
+        "maxCapacity": 35
+    },
+    "2901346236": {
+        "totalCod": 890524.28,
+        "dueAmount": 511.28,
+        "unreconciledPercent": 0.06,
+        "phone": "01289654776",
+        "maxCapacity": 40
+    },
+    "3999385818": {
+        "totalCod": 14252.22,
+        "dueAmount": 372.22,
+        "unreconciledPercent": 2.61
+    },
+    "3182541476": {
+        "totalCod": 66815.14,
+        "dueAmount": 37.14,
+        "unreconciledPercent": 0.06
+    },
+    "4438668684": {
+        "totalCod": 1013583.03,
+        "dueAmount": 0.03,
+        "unreconciledPercent": 0.0,
+        "phone": "01010619904",
+        "maxCapacity": 40
+    },
+    "8711180110": {
+        "totalCod": 6544.58,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0
+    },
+    "7987143556": {
+        "totalCod": 647.0600000000001,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0
+    },
+    "2300403232": {
+        "totalCod": 188180.64,
+        "dueAmount": -0.36,
+        "unreconciledPercent": -0.0,
+        "phone": "01281824130",
+        "maxCapacity": 20
+    },
+    "8549083594": {
+        "totalCod": 1145486.17,
+        "dueAmount": -0.83,
+        "unreconciledPercent": -0.0,
+        "phone": "01226932021",
+        "maxCapacity": 40
+    },
+    "8660681847": {
+        "totalCod": 19473.679999999997,
+        "dueAmount": -1.32,
+        "unreconciledPercent": -0.0
+    },
+    "8630444140": {
+        "totalCod": 1468723.5300000003,
+        "dueAmount": -1.47,
+        "unreconciledPercent": -0.0,
+        "phone": "01501407602",
+        "maxCapacity": 30
+    },
+    "3221758880": {
+        "totalCod": 579341.56,
+        "dueAmount": -3.44,
+        "unreconciledPercent": -0.0,
+        "phone": "01226932021",
+        "maxCapacity": 40
+    },
+    "3207812612": {
+        "totalCod": 45259.340000000004,
+        "dueAmount": -15.16,
+        "unreconciledPercent": -0.0
+    },
+    "2417925574": {
+        "totalCod": 132169.54,
+        "dueAmount": -103.46,
+        "unreconciledPercent": -0.0
+    },
+    "7469375621": {
+        "totalCod": 34739.95,
+        "dueAmount": -225.05,
+        "unreconciledPercent": -0.01
+    },
+    "2595755757": {
+        "totalCod": 729060.33,
+        "dueAmount": -444.67,
+        "unreconciledPercent": -0.0,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "4718866738": {
+        "totalCod": 685401.56,
+        "dueAmount": -1252.44,
+        "unreconciledPercent": -0.0,
+        "phone": "01008882850",
+        "maxCapacity": 35
+    },
+    "1151800427": {
+        "totalCod": 1122987.53,
+        "dueAmount": -1605.47,
+        "unreconciledPercent": -0.0,
+        "phone": "",
+        "maxCapacity": 50
+    },
+    "6852304055": {
+        "totalCod": 1110606.1199999999,
+        "dueAmount": -13074.38,
+        "unreconciledPercent": -0.01,
+        "phone": "01203491727 - 01273496220",
+        "maxCapacity": 70
+    },
+    "5157004524": {
+        "totalCod": 708589.0899999999,
+        "dueAmount": -14650.91,
+        "unreconciledPercent": -0.02,
+        "phone": "01097013153",
+        "maxCapacity": 30
+    },
+    "6651699785": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01113077794",
+        "maxCapacity": 30
+    },
+    "9839600952": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01000907611",
+        "maxCapacity": 60
+    },
+    "8836674828": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01270008292",
+        "maxCapacity": 30
+    },
+    "8911352391": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01273191752",
+        "maxCapacity": 25
+    },
+    "2580641601": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": ""
+    },
+    "2476869790": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01200801208",
+        "maxCapacity": 50
+    },
+    "6166740196": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "",
+        "maxCapacity": 25
+    },
+    "3599079435": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "",
+        "maxCapacity": 15
+    },
+    "1399127746": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01003998419",
+        "maxCapacity": 15
+    },
+    "4727443596": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "",
+        "maxCapacity": 20
+    },
+    "8090008725": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "",
+        "maxCapacity": 20
+    },
+    "7384025292": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01141087184",
+        "maxCapacity": 70
+    },
+    "7283267077": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01034883067",
+        "maxCapacity": 30
+    },
+    "7177217236": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01279685297",
+        "maxCapacity": 50
+    },
+    "7993216861": {
+        "totalCod": 0.0,
+        "dueAmount": 0.0,
+        "unreconciledPercent": 0.0,
+        "phone": "01008992173",
+        "maxCapacity": 30
+    }
+}
