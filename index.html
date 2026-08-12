@@ -593,6 +593,100 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- ===== RTS PAGE ===== -->
+                <section class="page" id="page-rts">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-undo-alt" style="color: #ffb300;"></i> قسم جرد المرتجعات (RTS)</h2>
+                            <span class="page-subtitle">رفع ملف المرتجعات وجرد الشحنات باستخدام الماسح الضوئي</span>
+                        </div>
+                        <div class="page-actions">
+                            <input type="file" id="rts-csv-input" accept=".csv" style="display: none;">
+                            <button class="btn btn-secondary" onclick="document.getElementById('rts-csv-input').click()">
+                                <i class="fas fa-file-upload"></i> رفع ملف RTS CSV
+                            </button>
+                            <button class="btn btn-primary" id="rts-finish-btn" style="background: #ff5252; color: white;">
+                                <i class="fas fa-flag-checkered"></i> إنهاء المرتجعات (تقرير)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- RTS KPIs -->
+                    <div class="dashboard-stats" style="margin-bottom: 1.5rem;">
+                        <div class="stat-card" style="border-left: 4px solid #ffb300;">
+                            <div class="stat-info">
+                                <span class="stat-label">إجمالي المرتجعات في الملف</span>
+                                <span class="stat-value" id="rts-total-count">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid #00e676;">
+                            <div class="stat-info">
+                                <span class="stat-label">تم استرجاعه (Scanned)</span>
+                                <span class="stat-value" id="rts-scanned-count" style="color: #00e676;">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid #ff5252;">
+                            <div class="stat-info">
+                                <span class="stat-label">متبقي لم يرجع (Pending)</span>
+                                <span class="stat-value" id="rts-pending-count" style="color: #ff5252;">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RTS Scanner Input -->
+                    <div class="card" style="margin-bottom: 1.5rem; border: 2px solid var(--primary); box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);">
+                        <div class="card-body" style="text-align: center; padding: 2rem;">
+                            <h3 style="margin-bottom: 1rem;"><i class="fas fa-barcode"></i> مسح باركود الشحنة المرتجعة</h3>
+                            <input type="text" id="rts-scanner-input" class="form-control" placeholder="قم بعمل Scan للباركود هنا..." style="font-size: 1.5rem; padding: 1rem; text-align: center; font-family: var(--font-en); font-weight: bold; width: 100%; max-width: 500px; margin: 0 auto;">
+                            <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">يتم تسجيل الشحنة تلقائياً عند قراءة الباركود (يجب أن يكون المؤشر داخل هذا المربع).</p>
+                        </div>
+                    </div>
+
+                    <!-- RTS Tables -->
+                    <div class="analytics-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <!-- Pending Table -->
+                        <div class="card">
+                            <div class="card-header" style="background: rgba(255, 82, 82, 0.1);">
+                                <h3><i class="fas fa-clock"></i> شحنات متبقية (لم ترجع)</h3>
+                            </div>
+                            <div class="card-body" style="padding: 0; max-height: 500px; overflow-y: auto;">
+                                <table class="data-table" id="rts-pending-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tracking ID</th>
+                                            <th>Store Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rts-pending-body">
+                                        <!-- Pending data -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Scanned Table -->
+                        <div class="card">
+                            <div class="card-header" style="background: rgba(0, 230, 118, 0.1);">
+                                <h3><i class="fas fa-check"></i> شحنات تم استرجاعها (Scanned)</h3>
+                            </div>
+                            <div class="card-body" style="padding: 0; max-height: 500px; overflow-y: auto;">
+                                <table class="data-table" id="rts-scanned-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tracking ID</th>
+                                            <th>Store Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rts-scanned-body">
+                                        <!-- Scanned data -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="page" id="page-schedule">
                     <div class="page-header">
                         <div class="page-title">
