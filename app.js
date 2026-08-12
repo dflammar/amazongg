@@ -16,7 +16,8 @@
         maps: {},
         markers: [],
         mapFilter: 'all',
-        extraData: {}
+        extraData: {},
+        lossesData: []
     };
 
     // ===== Day name translations =====
@@ -284,6 +285,7 @@
             renderStoresTable();
             initMaps();
             renderAnalytics();
+            renderLosses();
             renderSchedule();
             showToast('تم تحميل البيانات بنجاح', 'success', `تم تحميل ${state.stores.length} محل`);
         } catch (err) {
@@ -299,8 +301,14 @@
             if (extraResponse.ok) {
                 state.extraData = await extraResponse.json();
             }
+            
+            // Fetch losses data
+            const lossesResponse = await fetch('dex5_losses.json');
+            if (lossesResponse.ok) {
+                state.lossesData = await lossesResponse.json();
+            }
         } catch (e) {
-            console.warn('Failed to load store_extra_data.json', e);
+            console.warn('Failed to load local JSON files', e);
         }
 
         // Try to fetch stores from cloud KV first
@@ -324,6 +332,7 @@
                     renderStoresTable();
                     initMaps();
                     renderAnalytics();
+                    renderLosses();
                     renderSchedule();
                     showToast('تم استعادة البيانات السحابية بنجاح ☁️', 'success', `تم تحميل ${state.stores.length} محل`);
                     return;
@@ -350,6 +359,7 @@
                 renderStoresTable();
                 initMaps();
                 renderAnalytics();
+                renderLosses();
                 renderSchedule();
                 showToast('تم استعادة البيانات المعدلة محلياً', 'success', `تم تحميل ${state.stores.length} محل`);
                 return;
@@ -2237,6 +2247,219 @@
                 if (e.key === 'Enter') attemptLogin();
             };
         }
+    }
+
+    // ===== Losses Section =====
+    let lossesStoreChartInstance = null;
+    let lossesStatusChartInstance = null;
+
+    function renderLosses() {
+        if (!state.lossesData || state.lossesData.length === 0) return;
+        
+        const data = state.lossesData;
+        const totalShipments = data.length;
+        
+        let totalMissingEGP = 0;
+        let totalMissingUSD = 0;
+        let deliveredCount = 0;
+        let missingCount = 0;
+        
+        const storeStats = {};
+        const statusStats = {
+            'Missing/Lost': 0,
+            'Delivered/Received': 0
+        };
+
+        data.forEach(item => {
+            const status = item.status.toLowerCase();
+            const isMissing = status.includes('missing') || status.includes('lost');
+            
+            if (isMissing) {
+                totalMissingEGP += item.value;
+                totalMissingUSD += item.usd;
+                missingCount++;
+                statusStats['Missing/Lost']++;
+                
+                // Track store missing value
+                if (!storeStats[item.store]) storeStats[item.store] = 0;
+                storeStats[item.store] += item.value;
+            } else {
+                deliveredCount++;
+                statusStats['Delivered/Received']++;
+            }
+        });
+
+        // Find worst store
+        let worstStore = '-';
+        let maxLostValue = 0;
+        for (const [store, value] of Object.entries(storeStats)) {
+            if (value > maxLostValue) {
+                maxLostValue = value;
+                worstStore = store;
+            }
+        }
+
+        // Update KPIs
+        document.getElementById('losses-total-count').textContent = totalShipments;
+        document.getElementById('losses-total-egp').textContent = totalMissingEGP.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('losses-worst-store').textContent = worstStore;
+        document.getElementById('losses-delivered-count').textContent = deliveredCount;
+
+        // Render Data Table
+        renderLossesTable(data);
+        
+        // Render Charts using HTML Canvas APIs if you are using manual canvas drawing,
+        // or Chart.js if it's available. Assuming manual drawing based on analytics page:
+        setTimeout(() => {
+            drawLossesStoreChart(storeStats);
+            drawLossesStatusChart(statusStats['Missing/Lost'], statusStats['Delivered/Received']);
+        }, 100);
+    }
+
+    function renderLossesTable(dataList) {
+        const tbody = document.getElementById('losses-table-body');
+        if (!tbody) return;
+        
+        tbody.innerHTML = dataList.map(item => {
+            const status = item.status.toLowerCase();
+            const isMissing = status.includes('missing') || status.includes('lost');
+            const statusClass = isMissing ? 'inactive' : 'active';
+            
+            return `
+                <tr>
+                    <td style="font-family: var(--font-en); font-weight: 600;">${item.tracking_id}</td>
+                    <td>${item.date}</td>
+                    <td>${item.store}</td>
+                    <td style="color: ${isMissing ? '#ff5252' : '#00e676'}; font-weight: bold;">${item.value.toFixed(2)}</td>
+                    <td style="color: var(--text-muted);">${item.usd.toFixed(2)}</td>
+                    <td>${item.method}</td>
+                    <td><span class="status-badge ${statusClass}">${item.status}</span></td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // Add search listener for Losses
+    const lossesSearchInput = document.getElementById('losses-search');
+    if (lossesSearchInput) {
+        lossesSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredData = state.lossesData.filter(item => 
+                item.tracking_id.toLowerCase().includes(query) ||
+                item.store.toLowerCase().includes(query)
+            );
+            renderLossesTable(filteredData);
+        });
+    }
+
+    // Chart logic
+    function drawLossesStoreChart(storeStats) {
+        const canvas = document.getElementById('losses-store-chart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Sort stores by loss value
+        const entries = Object.entries(storeStats).sort((a, b) => b[1] - a[1]).slice(0, 8); // Top 8
+        if (entries.length === 0) return;
+        
+        const labels = entries.map(e => e[0]);
+        const values = entries.map(e => e[1]);
+        const maxVal = Math.max(...values);
+        
+        const padding = 40;
+        const width = canvas.width;
+        const height = canvas.height;
+        const chartWidth = width - padding * 2;
+        const chartHeight = height - padding * 2;
+        const barWidth = Math.max((chartWidth / values.length) - 10, 20);
+        
+        // Draw bars
+        values.forEach((val, i) => {
+            const barH = (val / maxVal) * chartHeight;
+            const x = padding + i * (chartWidth / values.length) + (chartWidth / values.length - barWidth) / 2;
+            const y = height - padding - barH;
+            
+            const grad = ctx.createLinearGradient(0, y, 0, y + barH);
+            grad.addColorStop(0, '#ff5252');
+            grad.addColorStop(1, '#ff1744');
+            
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.roundRect(x, y, barWidth, barH, [4, 4, 0, 0]);
+            ctx.fill();
+            
+            // Value
+            ctx.fillStyle = '#e8eaf6';
+            ctx.font = '11px Tajawal';
+            ctx.textAlign = 'center';
+            ctx.fillText(val.toFixed(0), x + barWidth / 2, y - 5);
+            
+            // Label (truncate)
+            ctx.save();
+            ctx.translate(x + barWidth / 2, height - padding + 15);
+            ctx.rotate(-Math.PI / 4);
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#8892b0';
+            let label = labels[i];
+            if (label.length > 10) label = label.substring(0, 10) + '...';
+            ctx.fillText(label, 0, 0);
+            ctx.restore();
+        });
+    }
+
+    function drawLossesStatusChart(missing, delivered) {
+        const canvas = document.getElementById('losses-status-chart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        
+        const total = missing + delivered;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 90;
+        const innerRadius = 60;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        if (total === 0) return;
+        
+        // Missing arc
+        const missingAngle = (missing / total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, -Math.PI/2, -Math.PI/2 + missingAngle);
+        ctx.arc(centerX, centerY, innerRadius, -Math.PI/2 + missingAngle, -Math.PI/2, true);
+        ctx.closePath();
+        const grad1 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        grad1.addColorStop(0, '#ff5252');
+        grad1.addColorStop(1, '#d50000');
+        ctx.fillStyle = grad1;
+        ctx.fill();
+        
+        // Delivered arc
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, -Math.PI/2 + missingAngle, -Math.PI/2 + Math.PI * 2);
+        ctx.arc(centerX, centerY, innerRadius, -Math.PI/2 + Math.PI * 2, -Math.PI/2 + missingAngle, true);
+        ctx.closePath();
+        const grad2 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        grad2.addColorStop(0, '#00e676');
+        grad2.addColorStop(1, '#00c853');
+        ctx.fillStyle = grad2;
+        ctx.fill();
+        
+        // Update center text
+        document.getElementById('losses-chart-center-value').textContent = missing;
+        
+        // Update legend
+        document.getElementById('losses-chart-legend').innerHTML = `
+            <div class="legend-item">
+                <span class="legend-color" style="background: linear-gradient(135deg, #ff5252, #d50000)"></span>
+                <span>مفقود (${missing})</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: linear-gradient(135deg, #00e676, #00c853)"></span>
+                <span>مستلم (${delivered})</span>
+            </div>
+        `;
     }
 
     // ===== Init =====

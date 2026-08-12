@@ -103,6 +103,12 @@
                             <span>التحليلات</span>
                         </a>
                     </li>
+                    <li class="nav-item" data-page="losses">
+                        <a href="#losses">
+                            <i class="fas fa-exclamation-triangle" style="color: #ff5252;"></i>
+                            <span style="color: #ff5252;">قسم الخسائر (DEX5)</span>
+                        </a>
+                    </li>
                     <li class="nav-item" data-page="schedule">
                         <a href="#schedule">
                             <i class="fas fa-calendar-days"></i>
@@ -474,7 +480,113 @@
                     </div>
                 </section>
 
-                <!-- ===== SCHEDULE PAGE ===== -->
+                <!-- ===== LOSSES PAGE ===== -->
+                <section class="page" id="page-losses">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2><i class="fas fa-exclamation-triangle" style="color: #ff5252;"></i> قسم الخسائر (DEX5)</h2>
+                            <span class="page-subtitle">تحليل وتتبع الشحنات المفقودة في محطة DEX5</span>
+                        </div>
+                    </div>
+
+                    <!-- Losses KPIs -->
+                    <div class="dashboard-stats" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 1.5rem;">
+                        <div class="stat-card" style="border-left: 4px solid #ff5252;">
+                            <div class="stat-icon" style="background: rgba(255, 82, 82, 0.1); color: #ff5252;">
+                                <i class="fas fa-box-open"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">إجمالي الشحنات</span>
+                                <span class="stat-value" id="losses-total-count">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid #ff5252;">
+                            <div class="stat-icon" style="background: rgba(255, 82, 82, 0.1); color: #ff5252;">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">إجمالي القيمة (ج.م)</span>
+                                <span class="stat-value" id="losses-total-egp">0</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid #ff9900;">
+                            <div class="stat-icon" style="background: rgba(255, 153, 0, 0.1); color: #ff9900;">
+                                <i class="fas fa-store-slash"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">أكثر المحلات تضرراً</span>
+                                <span class="stat-value" id="losses-worst-store" style="font-size: 1.2rem;">-</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid #00e676;">
+                            <div class="stat-icon" style="background: rgba(0, 230, 118, 0.1); color: #00e676;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">الشحنات المستلمة</span>
+                                <span class="stat-value" id="losses-delivered-count">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Losses Charts -->
+                    <div class="analytics-grid" style="margin-bottom: 1.5rem;">
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> الخسائر حسب المحل (ج.م)</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="losses-store-chart" width="500" height="300"></canvas>
+                            </div>
+                        </div>
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-pie"></i> حالة الشحنات</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="donut-chart-container">
+                                    <canvas id="losses-status-chart" width="250" height="250"></canvas>
+                                    <div class="chart-center-text">
+                                        <span class="chart-center-value" id="losses-chart-center-value">0</span>
+                                        <span class="chart-center-label">شحنة مفقودة</span>
+                                    </div>
+                                </div>
+                                <div class="chart-legend" id="losses-chart-legend"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Losses Data Table -->
+                    <div class="card">
+                        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <h3><i class="fas fa-list"></i> تفاصيل الشحنات</h3>
+                            <div class="search-bar" style="width: 300px;">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="losses-search" class="form-control" placeholder="ابحث عن رقم تتبع أو اسم المحل...">
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding: 0;">
+                            <div class="table-responsive">
+                                <table class="data-table" id="losses-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tracking ID</th>
+                                            <th>Date</th>
+                                            <th>Store Name</th>
+                                            <th>Value (EGP)</th>
+                                            <th>Value (USD)</th>
+                                            <th>Method</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="losses-table-body">
+                                        <!-- Data will be loaded here dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <section class="page" id="page-schedule">
                     <div class="page-header">
                         <div class="page-title">
