@@ -17,7 +17,9 @@
         markers: [],
         mapFilter: 'all',
         extraData: {},
-        lossesData: []
+        lossesData: [],
+        rtsItems: [],
+        rtsScannedIds: new Set()
     };
 
     // ===== Day name translations =====
@@ -2463,8 +2465,224 @@
         `;
     }
 
+    // ===== RTS Section =====
+    function initRTS() {
+        // Load scanned IDs from localStorage
+        const savedScanned = localStorage.getItem('ammar_rts_scanned');
+        if (savedScanned) {
+            try {
+                state.rtsScannedIds = new Set(JSON.parse(savedScanned));
+            } catch (e) {
+                state.rtsScannedIds = new Set();
+            }
+        } else {
+            state.rtsScannedIds = new Set();
+        }
+
+        const csvInput = document.getElementById('rts-csv-input');
+        if (csvInput) {
+            csvInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    parseRTSCSV(event.target.result);
+                };
+                reader.readAsText(file);
+            });
+        }
+
+        const scannerInput = document.getElementById('rts-scanner-input');
+        if (scannerInput) {
+            scannerInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const barcode = scannerInput.value.trim();
+                    if (barcode) {
+                        processRTSScan(barcode);
+                    }
+                    scannerInput.value = '';
+                }
+            });
+            // Auto focus when entering the page
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    if (item.dataset.page === 'rts') {
+                        setTimeout(() => scannerInput.focus(), 100);
+                        renderRTS(); // Re-render in case localstorage updated
+                    }
+                });
+            });
+        }
+
+        const finishBtn = document.getElementById('rts-finish-btn');
+        if (finishBtn) {
+            finishBtn.addEventListener('click', generateRTSReport);
+        }
+        
+        renderRTS();
+    }
+
+    function parseRTSCSV(csvText) {
+        const lines = csvText.split('\n');
+        const headers = parseCSVLine(lines[0]);
+        state.rtsItems = [];
+        
+        const trackingIdx = headers.indexOf('Tracking ID');
+        const storeIdx = headers.indexOf('DSP Name');
+        
+        if (trackingIdx === -1 || storeIdx === -1) {
+            showToast('الملف غير متوافق', 'error', 'يجب أن يحتوي الملف المرفوع على Tracking ID و DSP Name');
+            return;
+        }
+
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+            const values = parseCSVLine(line);
+            if (values.length >= headers.length) {
+                const trackingId = values[trackingIdx] ? values[trackingIdx].trim() : '';
+                const storeName = values[storeIdx] ? values[storeIdx].trim() : '';
+                if (trackingId) {
+                    state.rtsItems.push({
+                        tracking_id: trackingId,
+                        store: storeName
+                    });
+                }
+            }
+        }
+        
+        showToast('تم رفع الملف بنجاح', 'success', `تم تحميل ${state.rtsItems.length} شحنة مرتجعة`);
+        renderRTS();
+    }
+
+    function processRTSScan(barcode) {
+        const scannerInput = document.getElementById('rts-scanner-input');
+        if (!state.rtsItems || state.rtsItems.length === 0) {
+            showToast('تنبيه', 'warning', 'يرجى رفع ملف الـ CSV الخاص بالمرتجعات أولاً قبل البدء في المسح.');
+            scannerInput.classList.remove('scan-success', 'scan-error');
+            void scannerInput.offsetWidth;
+            scannerInput.classList.add('scan-error');
+            return;
+        }
+        
+        // Find if barcode exists in expected RTS items
+        const itemExists = state.rtsItems.some(i => i.tracking_id.toUpperCase() === barcode.toUpperCase());
+        
+        if (itemExists) {
+            if (!state.rtsScannedIds.has(barcode.toUpperCase())) {
+                state.rtsScannedIds.add(barcode.toUpperCase());
+                localStorage.setItem('ammar_rts_scanned', JSON.stringify(Array.from(state.rtsScannedIds)));
+                
+                scannerInput.classList.remove('scan-success', 'scan-error');
+                void scannerInput.offsetWidth; // trigger reflow
+                scannerInput.classList.add('scan-success');
+                renderRTS();
+            } else {
+                showToast('تنبيه', 'warning', 'تم تسجيل استرجاع هذه الشحنة مسبقاً!');
+                scannerInput.classList.remove('scan-success', 'scan-error');
+                void scannerInput.offsetWidth;
+                scannerInput.classList.add('scan-error');
+            }
+        } else {
+            showToast('خطأ', 'error', 'هذا التتبع غير موجود في ملف المرتجعات المرفوع!');
+            scannerInput.classList.remove('scan-success', 'scan-error');
+            void scannerInput.offsetWidth;
+            scannerInput.classList.add('scan-error');
+        }
+    }
+
+    function renderRTS() {
+        if (!state.rtsItems) return;
+        
+        const total = state.rtsItems.length;
+        const scanned = state.rtsScannedIds.size;
+        const pending = total - scanned;
+        
+        const elTotal = document.getElementById('rts-total-count');
+        const elScanned = document.getElementById('rts-scanned-count');
+        const elPending = document.getElementById('rts-pending-count');
+        
+        if (elTotal) elTotal.textContent = total;
+        if (elScanned) elScanned.textContent = scanned;
+        if (elPending) elPending.textContent = pending;
+        
+        const pendingTbody = document.getElementById('rts-pending-body');
+        const scannedTbody = document.getElementById('rts-scanned-body');
+        
+        if (!pendingTbody || !scannedTbody) return;
+        
+        let pendingHtml = '';
+        let scannedHtml = '';
+        
+        state.rtsItems.forEach(item => {
+            const tr = `
+                <tr>
+                    <td style="font-family: var(--font-en); font-weight: 600;">${item.tracking_id}</td>
+                    <td>${item.store}</td>
+                </tr>
+            `;
+            if (state.rtsScannedIds.has(item.tracking_id.toUpperCase())) {
+                scannedHtml += tr;
+            } else {
+                pendingHtml += tr;
+            }
+        });
+        
+        pendingTbody.innerHTML = pendingHtml || '<tr><td colspan="2" style="text-align:center; padding: 15px; color: var(--text-muted);">لا يوجد شحنات متبقية</td></tr>';
+        scannedTbody.innerHTML = scannedHtml || '<tr><td colspan="2" style="text-align:center; padding: 15px; color: var(--text-muted);">لم يتم مسح أي شحنة بعد</td></tr>';
+    }
+
+    function generateRTSReport() {
+        if (!state.rtsItems || state.rtsItems.length === 0) {
+            showToast('تنبيه', 'warning', 'يجب رفع ملف المرتجعات أولاً قبل إنهائها.');
+            return;
+        }
+        
+        const missingItems = state.rtsItems.filter(i => !state.rtsScannedIds.has(i.tracking_id.toUpperCase()));
+        
+        if (missingItems.length === 0) {
+            alert('🎉 عمل ممتاز! تم استرجاع جميع الشحنات الموجودة في الملف بنجاح ولا توجد أية نواقص.');
+            if (confirm('هل تريد مسح السجل والبدء بملف جديد غداً؟')) {
+                state.rtsScannedIds.clear();
+                state.rtsItems = [];
+                localStorage.removeItem('ammar_rts_scanned');
+                document.getElementById('rts-csv-input').value = ""; // Clear file input
+                renderRTS();
+            }
+            return;
+        }
+        
+        // Group by store
+        const grouped = {};
+        missingItems.forEach(i => {
+            if (!grouped[i.store]) grouped[i.store] = [];
+            grouped[i.store].push(i.tracking_id);
+        });
+        
+        let reportText = "=== 📑 تقرير المرتجعات المفقودة ===\n\n";
+        for (const [store, ids] of Object.entries(grouped)) {
+            reportText += `🛒 محل: ${store} (${ids.length} شحنات)\n`;
+            ids.forEach(id => reportText += `   - ${id}\n`);
+            reportText += "\n";
+        }
+        
+        alert("⚠️ تنبيه: توجد شحنات لم يتم استرجاعها!\n\n" + reportText.substring(0, 400) + (reportText.length > 400 ? '\n...\n(باقي التقرير تجده في الـ Console)' : ''));
+        console.log(reportText); // Log full report to console for copy-pasting
+        showToast('تم إصدار التقرير', 'info', 'تم طباعة التقرير بالكامل في الـ Console لنسخه');
+        
+        if (confirm('هل تريد مسح البيانات السابقة للبدء بملف جديد غداً؟ (تأكد من نسخ التقرير قبل الموافقة)')) {
+            state.rtsScannedIds.clear();
+            state.rtsItems = [];
+            localStorage.removeItem('ammar_rts_scanned');
+            document.getElementById('rts-csv-input').value = "";
+            renderRTS();
+        }
+    }
+
     // ===== Init =====
     function init() {
+        initRTS();
         updateDateTime();
         setInterval(updateDateTime, 1000);
         initEventListeners();
