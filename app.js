@@ -2391,16 +2391,17 @@
             
             // Value
             ctx.fillStyle = '#e8eaf6';
-            ctx.font = '11px Tajawal';
+            ctx.font = 'bold 15px Tajawal';
             ctx.textAlign = 'center';
-            ctx.fillText(val.toFixed(0), x + barWidth / 2, y - 5);
+            ctx.fillText(val.toFixed(0), x + barWidth / 2, y - 8);
             
             // Label (truncate)
             ctx.save();
-            ctx.translate(x + barWidth / 2, height - padding + 15);
+            ctx.translate(x + barWidth / 2, height - padding + 20);
             ctx.rotate(-Math.PI / 4);
             ctx.textAlign = 'right';
             ctx.fillStyle = '#8892b0';
+            ctx.font = '13px Tajawal';
             let label = labels[i];
             if (label.length > 10) label = label.substring(0, 10) + '...';
             ctx.fillText(label, 0, 0);
