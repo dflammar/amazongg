@@ -376,8 +376,60 @@
             }
             
             state.filteredStores = [...state.stores];
-            localStorage.setItem('ammar_stores', JSON.stringify(state.stores)); // Save merged result
             
+            // Merge extra financial and phone data
+            if (state.extraData) {
+                state.stores.forEach(store => {
+                    const extra = state.extraData[store.storeId];
+                    if (extra) {
+                        store.dueAmount = extra.dueAmount || 0;
+                        store.totalCod = extra.totalCod || 0;
+                        store.unreconciledPercent = extra.unreconciledPercent || 0;
+                        if (!store.phone && extra.phone) {
+                            store.phone = extra.phone;
+                        }
+                        if (extra.maxCapacity) {
+                            store.schedule.forEach(sch => {
+                                if (sch.supplyWindow === 'SW1') {
+                                    sch.maxCapacity = extra.maxCapacity;
+                                }
+                            });
+                        }
+                    } else {
+                        store.dueAmount = 0;
+                        store.totalCod = 0;
+                        store.unreconciledPercent = 0;
+                    }
+                });
+            }
+
+            localStorage.setItem('ammar_stores', JSON.stringify(state.stores)); // Save merged result
+
+            // Clear existing options in city filter (except the first 'all')
+            const cityFilter = document.getElementById('filter-city');
+            if (cityFilter) {
+                cityFilter.innerHTML = '<option value="all">جميع المدن</option>';
+                const cities = [...new Set(state.stores.map(s => s.city))].filter(Boolean).sort();
+                cities.forEach(city => {
+                    const opt = document.createElement('option');
+                    opt.value = city;
+                    opt.textContent = city;
+                    cityFilter.appendChild(opt);
+                });
+            }
+
+            // Clear and populate schedule store filter
+            const scheduleFilter = document.getElementById('schedule-store-filter');
+            if (scheduleFilter) {
+                scheduleFilter.innerHTML = '<option value="all">جميع المحلات</option>';
+                state.stores.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.storeId;
+                    opt.textContent = `${s.storeName} (${s.storeId})`;
+                    scheduleFilter.appendChild(opt);
+                });
+            }
+
             hideLoadingScreen();
             initDashboard();
             renderStoresTable();
