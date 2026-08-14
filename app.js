@@ -313,69 +313,95 @@
             console.warn('Failed to load local JSON files', e);
         }
 
-        // Try to fetch stores from cloud KV first
+    async function loadData() {
+        // Fetch extra data first
+        try {
+            const extraResponse = await fetch('store_extra_data.json');
+            if (extraResponse.ok) {
+                state.extraData = await extraResponse.json();
+            }
+            
+            // Fetch losses data
+            const lossesResponse = await fetch('dex5_losses.json');
+            if (lossesResponse.ok) {
+                state.lossesData = await lossesResponse.json();
+            }
+        } catch (e) {
+            console.warn('Failed to load local JSON files', e);
+        }
+
+        // 1. Fetch BASE CSV (Always prioritize CSV for status, new stores, and radius)
+        let baseStores = [];
+        try {
+            const response = await fetch('searchHubsResponse (67).csv');
+            if (response.ok) {
+                const csvText = await response.text();
+                baseStores = parseCSV(csvText, true); // true = silent, don't set state yet
+            }
+        } catch(e) {
+            console.error("Failed to load base CSV", e);
+        }
+
+        // 2. Fetch CUSTOM EDITS from Cloud OR LocalStorage (for lat, lng, phone)
+        let customStores = [];
         try {
             const cloudResponse = await fetch('/api/stores');
             if (cloudResponse.ok) {
                 const data = await cloudResponse.json();
                 if (data.success && data.stores && data.stores.length > 0) {
-                    state.stores = data.stores;
-                    state.stores.forEach(s => {
-                        s.lat = parseFloat(s.lat) || 0;
-                        s.lng = parseFloat(s.lng) || 0;
-                    });
-                    state.filteredStores = [...state.stores];
-                    
-                    // Save to local storage as fallback
-                    localStorage.setItem('ammar_stores', JSON.stringify(state.stores));
-                    
-                    hideLoadingScreen();
-                    initDashboard();
-                    renderStoresTable();
-                    initMaps();
-                    renderAnalytics();
-                    renderLosses();
-                    renderSchedule();
-                    showToast('تم استعادة البيانات السحابية بنجاح ☁️', 'success', `تم تحميل ${state.stores.length} محل`);
-                    return;
+                    customStores = data.stores;
                 }
             }
         } catch (err) {
             console.warn('Failed to load stores from Cloud. Checking localStorage...', err);
         }
-
-        // Check if there is saved store data in localStorage as fallback
-        const savedStores = localStorage.getItem('ammar_stores');
-        if (savedStores) {
-            try {
-                state.stores = JSON.parse(savedStores);
-                state.stores.forEach(s => {
-                    s.lat = parseFloat(s.lat) || 0;
-                    s.lng = parseFloat(s.lng) || 0;
-                });
-                state.filteredStores = [...state.stores];
-                
-                // Hide loading screen and init dashboard
-                hideLoadingScreen();
-                initDashboard();
-                renderStoresTable();
-                initMaps();
-                renderAnalytics();
-                renderLosses();
-                renderSchedule();
-                showToast('تم استعادة البيانات المعدلة محلياً', 'success', `تم تحميل ${state.stores.length} محل`);
-                return;
-            } catch (e) {
-                console.error('Failed to parse saved stores from localStorage, loading default CSV', e);
+        
+        if (customStores.length === 0) {
+            const savedStores = localStorage.getItem('ammar_stores');
+            if (savedStores) {
+                try { customStores = JSON.parse(savedStores); } catch(e) {}
             }
         }
 
-        // Otherwise, fetch default CSV and parse it
-        try {
-            const response = await fetch('searchHubsResponse (66).csv');
-            if (!response.ok) throw new Error('File not found');
-            const csvText = await response.text();
-            processLoadedData(csvText, true);
+        // 3. Merge Logic
+        if (baseStores.length > 0) {
+            const customMap = {};
+            customStores.forEach(s => { customMap[s.storeId] = s; });
+            
+            baseStores.forEach(s => {
+                if (customMap[s.storeId]) {
+                    const c = customMap[s.storeId];
+                    // Keep custom coords if they exist and aren't 0
+                    if (c.lat && c.lat !== 0) s.lat = parseFloat(c.lat);
+                    if (c.lng && c.lng !== 0) s.lng = parseFloat(c.lng);
+                    if (c.phone) s.phone = c.phone;
+                }
+                s.lat = parseFloat(s.lat) || 0;
+                s.lng = parseFloat(s.lng) || 0;
+            });
+            state.stores = baseStores;
+        } else if (customStores.length > 0) {
+            state.stores = customStores; // fallback if CSV failed
+            state.stores.forEach(s => {
+                s.lat = parseFloat(s.lat) || 0;
+                s.lng = parseFloat(s.lng) || 0;
+            });
+        } else {
+            // Fatal error handled in catch block below if we throw
+            throw new Error('No data available');
+        }
+        
+        state.filteredStores = [...state.stores];
+        localStorage.setItem('ammar_stores', JSON.stringify(state.stores)); // Save merged result
+        
+        hideLoadingScreen();
+        initDashboard();
+        renderStoresTable();
+        initMaps();
+        renderAnalytics();
+        renderLosses();
+        renderSchedule();
+        showToast('تم تحديث وتحميل البيانات بنجاح', 'success', `تم تحميل ${state.stores.length} محل`);
         } catch (error) {
             console.warn('Auto-fetch failed or CORS block. Prompting user to import manually:', error);
             
@@ -384,7 +410,7 @@
             if (loadingScreen) {
                 loadingScreen.querySelector('p').innerHTML = `
                     <span style="color:#ff5252; display:block; margin-bottom:10px;">لم نتمكن من قراءة ملف CSV تلقائياً (CORS / ملف غير موجود).</span>
-                    يرجى الضغط على الزر أدناه لتحديد ملف <strong>searchHubsResponse (66).csv</strong> من جهازك:
+                    يرجى الضغط على الزر أدناه لتحديد ملف <strong>searchHubsResponse (67).csv</strong> من جهازك:
                 `;
                 
                 // Add a temporary upload button to the loading screen
