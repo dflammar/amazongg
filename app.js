@@ -297,23 +297,6 @@
     }
 
     async function loadData() {
-        // Fetch extra data first
-        try {
-            const extraResponse = await fetch('store_extra_data.json');
-            if (extraResponse.ok) {
-                state.extraData = await extraResponse.json();
-            }
-            
-            // Fetch losses data
-            const lossesResponse = await fetch('dex5_losses.json');
-            if (lossesResponse.ok) {
-                state.lossesData = await lossesResponse.json();
-            }
-        } catch (e) {
-            console.warn('Failed to load local JSON files', e);
-        }
-
-    async function loadData() {
         try {
             // Fetch extra data first
             try {
