@@ -27,33 +27,7 @@
         </div>
     </div>
 
-    <!-- Login Lock Screen -->
-    <div id="login-lock-screen" class="login-lock-screen">
-        <div class="login-card">
-            <div class="login-logo-icon">
-                <i class="fas fa-shield-halved"></i>
-            </div>
-            <h2>بوابة الوصول الآمن</h2>
-            <p>أدخل الرقم السري المؤقت الخاص بك للدخول إلى لوحة التحكم</p>
-            
-            <div class="form-group" style="margin-top: 20px; text-align: right;">
-                <label for="login-password" style="font-size:0.8rem;color:var(--text-secondary);font-weight:500;margin-bottom:5px;display:block;">الرقم السري</label>
-                <input type="password" id="login-password" placeholder="أدخل الرقم السري" style="text-align: center; letter-spacing: 1px; padding: 0.7rem;">
-            </div>
-            
-            <button class="btn btn-primary" id="login-submit-btn" style="width: 100%; margin-top: 15px; padding: 0.8rem; font-family: var(--font-ar); font-size: 0.95rem;">
-                <i class="fas fa-sign-in-alt" style="margin-left: 5px;"></i> تسجيل الدخول
-            </button>
-            
-            <div id="login-error-msg" class="login-error-msg"></div>
-            
-            <div class="login-footer">
-                <span style="font-weight: bold; color: var(--primary);">تم إنشاء وبرمجته بواسطة المهندس عمار محمود</span>
-                <span style="color: var(--text-muted); font-size: 0.7rem; direction: ltr; margin-top: 2px;">moammary@amazon.com</span>
-                <span class="login-en" style="margin-top: 10px;">Ammar Hub dp &copy; 2026</span>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
@@ -129,15 +103,16 @@
                     <div class="user-avatar">
                         <i class="fas fa-user-shield"></i>
                     </div>
-                    <div class="user-details">
-                        <span class="user-name">مدير المحلات</span>
-                        <span class="user-role">DEX5 Station</span>
+                    <div class="user-details" style="font-family: var(--font-en);">
+                        <span class="user-name" style="font-weight: 800; letter-spacing: 1px;">HDP TEAM</span>
+                        <span class="user-role" style="letter-spacing: 0.5px; font-weight: 600;">DEX5 Station</span>
+                    </div>
                 </div>
-                <div class="dev-credits" style="margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.06); font-size: 0.72rem; text-align: center; color: var(--text-secondary);">
-                    <div style="font-weight: bold; color: var(--primary);">تم إنشاء وبرمجته بواسطة</div>
-                    <div style="color: var(--text-primary); font-weight: 600; margin-top: 2px;">المهندس عمار محمود</div>
-                    <a href="mailto:moammary@amazon.com" style="display: block; font-size: 0.65rem; color: var(--info); font-family: var(--font-en); margin-top: 2px; text-decoration: none;">
-                        <i class="fas fa-envelope" style="margin-left: 2px;"></i> moammary@amazon.com
+                <div class="dev-credits" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.06); text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-family: var(--font-en);">Developed by</div>
+                    <div style="color: var(--primary); font-weight: 800; font-size: 0.8rem; font-family: var(--font-en); letter-spacing: 0.5px;">Eng / Ammar Farghali</div>
+                    <a href="mailto:moammary@amazon.com" style="display: inline-block; font-size: 0.7rem; color: var(--info); font-family: var(--font-en); margin-top: 8px; text-decoration: none; padding: 4px 8px; background: rgba(0, 113, 227, 0.08); border-radius: 6px; transition: all 0.2s;">
+                        <i class="fas fa-envelope" style="margin-right: 4px;"></i> moammary@amazon.com
                     </a>
                 </div>
             </div>
@@ -717,6 +692,9 @@
                 </section>
 
             </div>
+            <footer style="text-align: center; padding: 25px 20px; font-size: 0.85rem; color: var(--text-muted); font-weight: 700; letter-spacing: 1.5px; font-family: var(--font-en); background: transparent; margin-top: auto; border-top: 1px solid rgba(0,0,0,0.05); text-transform: uppercase;">
+                <i class="fas fa-lock" style="margin-right: 6px; color: var(--danger);"></i> ONLY FOR HDP TEAM - DON'T SHARE IT
+            </footer>
         </main>
     </div>
 
