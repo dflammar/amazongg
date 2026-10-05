@@ -1153,10 +1153,10 @@
                     const radiusValue = parseInt(store.deliveryRadius) || 375;
                     L.circle([store.lat, store.lng], {
                         radius: radiusValue,
-                        color: '#ff990044',
-                        fillColor: '#ff990011',
-                        fillOpacity: 0.1,
-                        weight: 1
+                        color: '#ff0000',
+                        fillColor: 'transparent',
+                        fillOpacity: 0,
+                        weight: 2
                     }).addTo(state.maps.main);
                 }
 
@@ -1888,9 +1888,9 @@
                     const radiusValue = parseInt(store.deliveryRadius) || 375;
                     L.circle([store.lat, store.lng], {
                         radius: radiusValue,
-                        color: '#ff9900',
-                        fillColor: '#ff990033',
-                        fillOpacity: 0.2,
+                        color: '#ff0000',
+                        fillColor: 'transparent',
+                        fillOpacity: 0,
                         weight: 2
                     }).addTo(map);
                     
@@ -2221,96 +2221,11 @@
     const VALID_PASSWORDS = ['ammar1', 'ammar2', 'ammar3', 'ammar4', 'ammar5', 'ammar10', 'ammar11', 'ammar12', 'ammar13', 'ammar14', 'ammar15'];
 
     function checkAuth() {
-        const session = localStorage.getItem('ammar_session');
         const lockScreen = document.getElementById('login-lock-screen');
-        
-        if (session && VALID_PASSWORDS.includes(session)) {
-            if (lockScreen) {
-                lockScreen.classList.add('fade-out');
-                setTimeout(() => lockScreen.style.display = 'none', 500);
-            }
-            loadData();
-            return;
+        if (lockScreen) {
+            lockScreen.style.display = 'none';
         }
-
-        // Hide loading screen while login screen is active
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-            loadingScreen.style.display = 'none';
-        }
-
-        const submitBtn = document.getElementById('login-submit-btn');
-        const passwordInput = document.getElementById('login-password');
-        const errorMsg = document.getElementById('login-error-msg');
-
-        async function attemptLogin() {
-            const val = passwordInput.value.trim();
-            if (!val) {
-                showLoginError('الرجاء إدخال الرقم السري');
-                return;
-            }
-
-            if (!VALID_PASSWORDS.includes(val)) {
-                showLoginError('الرقم السري غير صحيح! يرجى المحاولة مرة أخرى.');
-                return;
-            }
-
-            try {
-                const res = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: val })
-                });
-
-                if (res.ok) {
-                    localStorage.setItem('ammar_session', val);
-                    unlockApp();
-                } else {
-                    const data = await res.json();
-                    showLoginError(data.message || 'تم استخدام هذا الرقم السري من قبل مستخدم آخر.');
-                }
-            } catch (err) {
-                console.warn('Vercel API login failed, using localStorage fallback:', err);
-                const localUsed = JSON.parse(localStorage.getItem('ammar_used_passwords') || '[]');
-                if (localUsed.includes(val)) {
-                    showLoginError('عذراً، هذا الرقم السري تم استخدامه من قبل جهاز آخر ولا يمكن استخدامه مجدداً.');
-                } else {
-                    localUsed.push(val);
-                    localStorage.setItem('ammar_used_passwords', JSON.stringify(localUsed));
-                    localStorage.setItem('ammar_session', val);
-                    unlockApp();
-                }
-            }
-        }
-
-        function showLoginError(msg) {
-            if (errorMsg) {
-                errorMsg.textContent = msg;
-                errorMsg.style.display = 'block';
-            }
-        }
-
-        function unlockApp() {
-            if (lockScreen) {
-                lockScreen.classList.add('fade-out');
-                setTimeout(() => lockScreen.style.display = 'none', 500);
-            }
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.style.display = 'flex';
-                loadingScreen.classList.remove('fade-out');
-            }
-            loadData();
-        }
-
-        if (submitBtn) {
-            submitBtn.onclick = attemptLogin;
-        }
-        if (passwordInput) {
-            passwordInput.onkeydown = (e) => {
-                if (e.key === 'Enter') attemptLogin();
-            };
-        }
+        loadData();
     }
 
     // ===== Losses Section =====
