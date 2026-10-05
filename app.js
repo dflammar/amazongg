@@ -1023,7 +1023,7 @@
             attributionControl: false
         }).setView([31.22, 29.95], 12);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19
         }).addTo(map);
 
@@ -1078,9 +1078,9 @@
             attributionControl: true
         }).setView([31.22, 29.95], 12);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; CartoDB'
+            attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
         state.maps.main = map;
@@ -1539,7 +1539,7 @@
         }
 
         const map = L.map('edit-map').setView([lat, lng], 15);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19
         }).addTo(map);
 
@@ -1880,7 +1880,7 @@
                         state.maps.detail.remove();
                     }
                     const map = L.map('detail-map').setView([store.lat, store.lng], 16);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         maxZoom: 19
                     }).addTo(map);
                     L.marker([store.lat, store.lng]).addTo(map);
