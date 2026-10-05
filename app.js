@@ -2657,12 +2657,79 @@
         }
     }
 
+    // ===== Notifications Logic =====
+    function initNotifications() {
+        const notifBtn = document.getElementById('notification-btn');
+        const notifDropdown = document.getElementById('notifications-dropdown');
+        const badge = document.getElementById('notification-badge');
+        const list = document.getElementById('notifications-list');
+        const markReadBtn = document.getElementById('mark-read-btn');
+
+        if (!notifBtn || !notifDropdown) return;
+
+        const dummyNotifications = [
+            { icon: 'fa-store', color: 'var(--success)', text: 'تم إضافة محل جديد بنجاح إلى نطاق سموحة.', time: 'منذ 5 دقائق' },
+            { icon: 'fa-box-open', color: 'var(--info)', text: 'زيادة ملحوظة في الشحنات لمحل "طلعت المصري".', time: 'منذ 12 دقيقة' },
+            { icon: 'fa-exclamation-circle', color: 'var(--warning)', text: 'يرجى مراجعة مديونيات بعض المحلات في منطقة الإسكندرية.', time: 'منذ ساعة' },
+            { icon: 'fa-chart-line', color: 'var(--primary)', text: 'ارتفاع معدل التغطية بنسبة 5% هذا الأسبوع.', time: 'منذ ساعتين' },
+            { icon: 'fa-user-check', color: 'var(--success)', text: 'تم تحديث أرقام هواتف 12 محل جديد.', time: 'منذ 3 ساعات' },
+            { icon: 'fa-map-marker-alt', color: 'var(--warning)', text: 'بعض المحلات قريبة جداً من حدود التغطية (475م).', time: 'منذ يوم' },
+            { icon: 'fa-sync', color: 'var(--info)', text: 'اكتملت مزامنة البيانات مع الخوادم بنجاح.', time: 'منذ يومين' }
+        ];
+
+        // Shuffle and pick 3-4
+        const shuffled = dummyNotifications.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, Math.floor(Math.random() * 2) + 3);
+
+        if (badge) {
+            badge.textContent = selected.length;
+            badge.style.display = selected.length > 0 ? 'flex' : 'none';
+        }
+
+        if (list) {
+            list.innerHTML = selected.map(n => `
+                <div style="padding: 12px 15px; border-bottom: 1px solid var(--border-color); display: flex; align-items: flex-start; gap: 10px; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='transparent'">
+                    <div style="background: ${n.color}22; color: ${n.color}; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem;">
+                        <i class="fas ${n.icon}"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.85rem; color: var(--text-primary); line-height: 1.4; margin-bottom: 4px;">${n.text}</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);"><i class="far fa-clock"></i> ${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            if (selected.length === 0) {
+                list.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">لا توجد إشعارات جديدة</div>';
+            }
+        }
+
+        notifBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notifDropdown.style.display = notifDropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!notifDropdown.contains(e.target) && !notifBtn.contains(e.target)) {
+                notifDropdown.style.display = 'none';
+            }
+        });
+
+        if (markReadBtn) {
+            markReadBtn.addEventListener('click', () => {
+                if (badge) badge.style.display = 'none';
+                if (list) list.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">لا توجد إشعارات جديدة</div>';
+            });
+        }
+    }
+
     // ===== Init =====
     function init() {
         initRTS();
         updateDateTime();
         setInterval(updateDateTime, 1000);
         initEventListeners();
+        initNotifications();
         checkAuth();
     }
 
