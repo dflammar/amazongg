@@ -1693,15 +1693,14 @@
         const criticalTbody = document.getElementById('critical-stores-tbody');
         if (criticalTbody) {
             criticalTbody.innerHTML = criticalStores.map(c => `
-                <tr style="background: rgba(255,82,82,0.05);">
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 600;">${c.name}</td>
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center; color: var(--danger); font-weight: bold;">${c.unrec}%</td>
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">${c.cod.toLocaleString()} EGP</td>
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left; font-family: var(--font-en); font-weight: bold;">${c.due.toLocaleString()} EGP</td>
+                <tr>
+                    <td style="font-weight: 600;">${c.name}</td>
+                    <td class="critical-val" style="text-align: center;">${c.unrec}%</td>
+                    <td style="font-family: var(--font-en); font-weight: bold; text-align: left; color: var(--text-primary);">${c.due.toLocaleString()}</td>
                 </tr>
             `).join('');
             if (criticalStores.length === 0) {
-                criticalTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">لا توجد محلات حرجة حالياً</td></tr>';
+                criticalTbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px; color: var(--text-muted);">لا توجد محلات حرجة</td></tr>';
             }
         }
 
