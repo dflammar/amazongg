@@ -1605,197 +1605,208 @@
     }
 
     // ===== Analytics =====
+    let analyticsCharts = {};
+
     function renderAnalytics() {
-        renderCityChart();
-        renderActivationChart();
-        renderCapacityBars();
-        renderDayHeatmap();
-    }
+        if (!state.stores || state.stores.length === 0) return;
 
-    function renderCityChart() {
-        const canvas = document.getElementById('city-chart');
-        const ctx = canvas.getContext('2d');
+        // KPI Calculations
+        let totalCOD = 0;
+        let totalDue = 0;
+        let totalUnreconciledSum = 0;
+        let unreconciledCount = 0;
+        let totalCap = 0;
+
+        let topDues = [];
+        let statusCounts = { 'Store Active': 0, 'Inactive': 0, 'Other': 0 };
+        let capacityByDay = { 'MONDAY':0, 'TUESDAY':0, 'WEDNESDAY':0, 'THURSDAY':0, 'FRIDAY':0, 'SATURDAY':0, 'SUNDAY':0 };
+        let riskLevels = { 'Low (<10%)': 0, 'Medium (10-30%)': 0, 'High (>30%)': 0 };
         
-        const cityCounts = {};
+        let criticalStores = [];
+
         state.stores.forEach(s => {
-            const city = s.city.toLowerCase();
-            cityCounts[city] = (cityCounts[city] || 0) + 1;
-        });
-
-        const sortedCities = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]);
-        const maxVal = sortedCities[0] ? sortedCities[0][1] : 1;
-        
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        const barHeight = 25;
-        const gap = 8;
-        const startX = 150;
-        const maxBarWidth = canvas.width - startX - 50;
-
-        sortedCities.forEach(([city, count], i) => {
-            const y = i * (barHeight + gap) + 10;
-            const barWidth = (count / maxVal) * maxBarWidth;
-
-            // Bar
-            const grad = ctx.createLinearGradient(startX, y, startX + barWidth, y);
-            grad.addColorStop(0, '#ff9900');
-            grad.addColorStop(1, '#ff6600');
+            const cod = parseFloat(s.totalCod || 0);
+            const due = parseFloat(s.dueAmount || 0);
+            const unrecStr = String(s.unreconciledPercent || '0').replace('%','');
+            const unrec = parseFloat(unrecStr || 0);
             
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.roundRect(startX, y, barWidth, barHeight, 4);
-            ctx.fill();
+            totalCOD += cod;
+            totalDue += due;
+            
+            if (unrec > 0) {
+                totalUnreconciledSum += unrec;
+                unreconciledCount++;
+            }
 
-            // Label
-            ctx.fillStyle = '#2d3748';
-            ctx.font = '12px Tajawal, Inter';
-            ctx.textAlign = 'right';
-            ctx.fillText(city, startX - 10, y + barHeight / 2 + 4);
+            // Top Dues
+            if (due > 0) {
+                topDues.push({ name: s.storeName, due: due, unrec: unrec });
+            }
 
-            // Value
-            ctx.fillStyle = '#2d3748';
-            ctx.textAlign = 'left';
-            ctx.fillText(count, startX + barWidth + 8, y + barHeight / 2 + 4);
-        });
-    }
+            // Critical
+            if (unrec > 50 || due > 5000) {
+                criticalStores.push({ name: s.storeName, unrec: unrec, due: due, cod: cod });
+            }
 
-    function renderActivationChart() {
-        const canvas = document.getElementById('activation-chart');
-        const ctx = canvas.getContext('2d');
-        
-        // Group by month
-        const monthCounts = {};
-        state.stores.forEach(s => {
-            if (s.activationDate && s.activationDate !== 'NA') {
-                const date = new Date(s.activationDate);
-                const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-                monthCounts[key] = (monthCounts[key] || 0) + 1;
+            // Status
+            if (s.status === 'Store Active') statusCounts['Store Active']++;
+            else if (s.status === 'Inactive' || s.status.includes('Disabled')) statusCounts['Inactive']++;
+            else statusCounts['Other']++;
+
+            // Risk
+            if (unrec < 10) riskLevels['Low (<10%)']++;
+            else if (unrec <= 30) riskLevels['Medium (10-30%)']++;
+            else riskLevels['High (>30%)']++;
+
+            // Capacity
+            if (s.schedule && Array.isArray(s.schedule)) {
+                s.schedule.forEach(sch => {
+                    if (sch.swStatus === 'ENABLED') {
+                        const cap = parseInt(sch.maxCapacity || 0);
+                        totalCap += cap;
+                        if (capacityByDay[sch.dayOfWeek] !== undefined) {
+                            capacityByDay[sch.dayOfWeek] += cap;
+                        }
+                    }
+                });
             }
         });
 
-        const months = Object.keys(monthCounts).sort();
-        const values = months.map(m => monthCounts[m]);
-        
-        if (months.length === 0) return;
-        
-        const maxVal = Math.max(...values);
-        const padding = { top: 20, right: 20, bottom: 40, left: 40 };
-        const chartWidth = canvas.width - padding.left - padding.right;
-        const chartHeight = canvas.height - padding.top - padding.bottom;
-        
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const avgUnrec = unreconciledCount > 0 ? (totalUnreconciledSum / unreconciledCount).toFixed(1) : 0;
 
-        // Draw line
-        ctx.beginPath();
-        ctx.strokeStyle = '#ff9900';
-        ctx.lineWidth = 2;
-        
-        const points = months.map((_, i) => ({
-            x: padding.left + (i / (months.length - 1 || 1)) * chartWidth,
-            y: padding.top + chartHeight - (values[i] / maxVal) * chartHeight
-        }));
+        const codEl = document.getElementById('analytics-total-cod');
+        const dueEl = document.getElementById('analytics-total-due');
+        const unrecEl = document.getElementById('analytics-avg-unreconciled');
+        const capEl = document.getElementById('analytics-total-cap');
 
-        // Area fill
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, padding.top + chartHeight);
-        points.forEach(p => ctx.lineTo(p.x, p.y));
-        ctx.lineTo(points[points.length - 1].x, padding.top + chartHeight);
-        ctx.closePath();
-        const areaGrad = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartHeight);
-        areaGrad.addColorStop(0, 'rgba(255,153,0,0.3)');
-        areaGrad.addColorStop(1, 'rgba(255,153,0,0)');
-        ctx.fillStyle = areaGrad;
-        ctx.fill();
+        if (codEl) codEl.textContent = totalCOD.toLocaleString() + ' EGP';
+        if (dueEl) dueEl.textContent = totalDue.toLocaleString() + ' EGP';
+        if (unrecEl) unrecEl.textContent = avgUnrec + '%';
+        if (capEl) capEl.textContent = totalCap.toLocaleString();
 
-        // Line
-        ctx.beginPath();
-        ctx.strokeStyle = '#ff9900';
-        ctx.lineWidth = 2;
-        points.forEach((p, i) => {
-            if (i === 0) ctx.moveTo(p.x, p.y);
-            else ctx.lineTo(p.x, p.y);
-        });
-        ctx.stroke();
+        // Sort Top Dues
+        topDues.sort((a,b) => b.due - a.due);
+        const top10Dues = topDues.slice(0, 10);
 
-        // Points
-        points.forEach((p, i) => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = '#ff9900';
-            ctx.fill();
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            // Label
-            if (i % Math.ceil(months.length / 8) === 0) {
-                ctx.fillStyle = '#718096';
-                ctx.font = '9px Inter';
-                ctx.textAlign = 'center';
-                ctx.fillText(months[i], p.x, padding.top + chartHeight + 15);
+        // Sort Critical
+        criticalStores.sort((a,b) => b.unrec - a.unrec);
+        const criticalTbody = document.getElementById('critical-stores-tbody');
+        if (criticalTbody) {
+            criticalTbody.innerHTML = criticalStores.map(c => `
+                <tr style="background: rgba(255,82,82,0.05);">
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 600;">${c.name}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center; color: var(--danger); font-weight: bold;">${c.unrec}%</td>
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: center;">${c.cod.toLocaleString()} EGP</td>
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left; font-family: var(--font-en); font-weight: bold;">${c.due.toLocaleString()} EGP</td>
+                </tr>
+            `).join('');
+            if (criticalStores.length === 0) {
+                criticalTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">لا توجد محلات حرجة حالياً</td></tr>';
             }
-        });
-    }
+        }
 
-    function renderCapacityBars() {
-        const container = document.getElementById('capacity-bars');
-        const activeStores = state.stores
-            .filter(s => s.status === 'Store Active')
-            .map(s => {
-                const sw1 = s.schedule.find(sch => sch.dayOfWeek === 'MONDAY' && sch.supplyWindow === 'SW1');
-                return { name: s.storeName, capacity: sw1 ? sw1.maxCapacity : 0, id: s.storeId };
-            })
-            .sort((a, b) => b.capacity - a.capacity)
-            .slice(0, 15);
+        if (typeof Chart === 'undefined') return;
 
-        const maxCap = activeStores[0] ? activeStores[0].capacity : 1;
+        // Draw Charts
+        Chart.defaults.color = '#8892b0';
+        Chart.defaults.font.family = 'Tajawal, Inter, sans-serif';
 
-        container.innerHTML = activeStores.map(store => `
-            <div class="capacity-bar-item">
-                <div class="capacity-bar-label">${store.name}</div>
-                <div class="capacity-bar-track">
-                    <div class="capacity-bar-fill" style="width: ${(store.capacity / maxCap) * 100}%">
-                        <span class="capacity-bar-value">${store.capacity}</span>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function renderDayHeatmap() {
-        const container = document.getElementById('day-heatmap');
-        
-        // Count how many stores operate on each day
-        const dayCounts = {};
-        dayOrder.forEach(day => dayCounts[day] = 0);
-        
-        state.stores.filter(s => s.status === 'Store Active').forEach(store => {
-            const days = store.operatingDays.split(' ');
-            const dayMap = { 0: 'MONDAY', 1: 'TUESDAY', 2: 'WEDNESDAY', 3: 'THURSDAY', 4: 'FRIDAY', 5: 'SATURDAY', 6: 'SUNDAY' };
-            days.forEach((d, i) => {
-                if (d !== '_') {
-                    dayCounts[dayMap[i]]++;
+        // 1. Top Dues Chart
+        if (analyticsCharts.topDues) analyticsCharts.topDues.destroy();
+        const ctxDues = document.getElementById('top-dues-chart');
+        if (ctxDues) {
+            analyticsCharts.topDues = new Chart(ctxDues, {
+                type: 'bar',
+                data: {
+                    labels: top10Dues.map(d => d.name),
+                    datasets: [{
+                        label: 'المديونية (EGP)',
+                        data: top10Dues.map(d => d.due),
+                        backgroundColor: '#ff9900',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
                 }
             });
-        });
+        }
 
-        const maxCount = Math.max(...Object.values(dayCounts));
+        // 2. Status Chart
+        if (analyticsCharts.status) analyticsCharts.status.destroy();
+        const ctxStatus = document.getElementById('store-status-chart');
+        if (ctxStatus) {
+            analyticsCharts.status = new Chart(ctxStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: ['نشط', 'غير نشط', 'أخرى'],
+                    datasets: [{
+                        data: [statusCounts['Store Active'], statusCounts['Inactive'], statusCounts['Other']],
+                        backgroundColor: ['#00e676', '#ff5252', '#40c4ff'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
 
-        container.innerHTML = `
-            <div class="heatmap-grid">
-                ${dayOrder.map(day => {
-                    const intensity = dayCounts[day] / maxCount;
-                    const color = `rgba(255, 153, 0, ${0.2 + intensity * 0.8})`;
-                    return `
-                        <div class="heatmap-cell" style="background-color: ${color}">
-                            <span class="heatmap-day">${dayTranslations[day]}</span>
-                            <span class="heatmap-count">${dayCounts[day]}</span>
-                            <span class="heatmap-label">محل</span>
-                        </div>
-                    `;
-                }).join('')}
-            </div>
-        `;
+        // 3. Capacity by Day
+        if (analyticsCharts.capDay) analyticsCharts.capDay.destroy();
+        const ctxCapDay = document.getElementById('capacity-day-chart');
+        if (ctxCapDay) {
+            analyticsCharts.capDay = new Chart(ctxCapDay, {
+                type: 'line',
+                data: {
+                    labels: ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'],
+                    datasets: [{
+                        label: 'السعة الإجمالية',
+                        data: [capacityByDay['MONDAY'], capacityByDay['TUESDAY'], capacityByDay['WEDNESDAY'], capacityByDay['THURSDAY'], capacityByDay['FRIDAY'], capacityByDay['SATURDAY'], capacityByDay['SUNDAY']],
+                        borderColor: '#00e676',
+                        backgroundColor: 'rgba(0, 230, 118, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } } }
+                }
+            });
+        }
+
+        // 4. Risk Levels
+        if (analyticsCharts.risk) analyticsCharts.risk.destroy();
+        const ctxRisk = document.getElementById('risk-level-chart');
+        if (ctxRisk) {
+            analyticsCharts.risk = new Chart(ctxRisk, {
+                type: 'bar',
+                data: {
+                    labels: ['منخفض (<10%)', 'متوسط (10-30%)', 'عالي (>30%)'],
+                    datasets: [{
+                        label: 'عدد المحلات',
+                        data: [riskLevels['Low (<10%)'], riskLevels['Medium (10-30%)'], riskLevels['High (>30%)']],
+                        backgroundColor: ['#00e676', '#ffd740', '#ff5252'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
+                }
+            });
+        }
     }
 
     // ===== Schedule Page =====
