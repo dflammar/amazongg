@@ -14,6 +14,33 @@
     <link rel="stylesheet" href="analytics.css">
 </head>
 <body>
+    <!-- Login Lock Screen -->
+    <div id="login-lock-screen" class="lock-screen-overlay">
+        <div class="lock-screen-card">
+            <div class="lock-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2><span style="color: #ff9900;">Amazon</span> Logistics</h2>
+            
+            <div class="lock-warning-box">
+                <strong><i class="fas fa-exclamation-circle"></i> Warning: This page contains private data.</strong>
+                <p>Exclusive for HDP Team. Please do not share.</p>
+            </div>
+
+            <div class="password-group">
+                <input type="password" id="lock-password-input" placeholder="Enter Password..." onkeypress="if(event.key === 'Enter') window.checkPassword()">
+                <button onclick="window.checkPassword()" id="lock-submit-btn"><i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div id="lock-error" class="lock-error" style="display: none;">Incorrect password. Try again.</div>
+            
+            <div class="lock-footer">
+                <p>To request access, contact<br><a href="mailto:moammary@amazon.com">moammary@amazon.com</a></p>
+                <div class="made-with-love">
+                    Made with <i class="fas fa-heart"></i> by Ammar
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
@@ -1006,4 +1033,5 @@
     <script src="app.js"></script>
 </body>
 </html>
+
 
