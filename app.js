@@ -2243,13 +2243,41 @@
     window.navigateTo = navigateTo;
 
     // ===== Authentication =====
-    const VALID_PASSWORDS = ['ammar1', 'ammar2', 'ammar3', 'ammar4', 'ammar5', 'ammar10', 'ammar11', 'ammar12', 'ammar13', 'ammar14', 'ammar15'];
+    document.body.classList.add('locked');
+
+    window.checkPassword = function() {
+        const input = document.getElementById('lock-password-input').value;
+        const error = document.getElementById('lock-error');
+        
+        if (input === 'ammarhdp') {
+            document.getElementById('login-lock-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('login-lock-screen').style.display = 'none';
+                document.body.classList.remove('locked');
+            }, 600);
+            sessionStorage.setItem('hdp_auth', 'true');
+        } else {
+            error.style.display = 'block';
+            setTimeout(() => {
+                error.style.display = 'none';
+            }, 3000);
+        }
+    };
 
     function checkAuth() {
         const lockScreen = document.getElementById('login-lock-screen');
-        if (lockScreen) {
-            lockScreen.style.display = 'none';
+        
+        if (sessionStorage.getItem('hdp_auth') === 'true') {
+            if (lockScreen) lockScreen.style.display = 'none';
+            document.body.classList.remove('locked');
+            loadData();
+            return;
         }
+
+        if (lockScreen) {
+            lockScreen.style.display = 'flex';
+        }
+        
         loadData();
     }
 
