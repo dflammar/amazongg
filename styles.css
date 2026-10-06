@@ -110,7 +110,7 @@ html, body {
   backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border-left: 1px solid var(--card-border);
   display: flex; flex-direction: column;
-  z-index: 200; transition: all var(--transition);
+  z-index: 1050; transition: all var(--transition);
   overflow-y: auto;
 }
 .sidebar.collapsed { transform: translateX(100%); }
@@ -194,7 +194,7 @@ html, body {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--card-border);
-  position: sticky; top: 0; z-index: 100;
+  position: sticky; top: 0; z-index: 1000;
 }
 .header-right { display: flex; align-items: center; gap: 1rem; flex: 1; }
 .mobile-menu-btn {
@@ -1170,4 +1170,19 @@ html, body {
 
 @media (max-width: 768px) {
   #page-rts .analytics-grid { grid-template-columns: 1fr; }
+}
+
+
+
+/* Fix for manual canvas charts on mobile */
+.chart-card canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
+/* Ensure data table is scrollable without breaking layout */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
