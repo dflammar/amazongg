@@ -137,3 +137,54 @@
 .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* Responsive Adjustments for Mobile */
+@media (max-width: 768px) {
+    .analytics-row {
+        flex-direction: column;
+    }
+    .a-card {
+        min-width: 100%;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .chart-wrapper {
+        height: 250px;
+        padding: 5px;
+    }
+    .analytics-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .kpi-card {
+        padding: 12px;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    .kpi-title {
+        font-size: 0.75rem;
+    }
+    .kpi-value {
+        font-size: 1.1rem;
+    }
+    .a-table th, .a-table td {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+}
+@media (max-width: 480px) {
+    .analytics-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    .kpi-card {
+        flex-direction: row;
+        text-align: right;
+    }
+    .kpi-value {
+        font-size: 1.2rem;
+    }
+    .a-card {
+        min-width: unset;
+    }
+}
