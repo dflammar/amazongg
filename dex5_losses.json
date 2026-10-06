@@ -1,338 +1,44 @@
 [
-  {
-    "node": "DEX5",
-    "store": "BLACK& WAhite",
-    "value": 1249,
-    "usd": 24.05,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 285.09,
-    "usd": 5.52,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "Tota's Barber Shop",
-    "value": 300,
-    "usd": 5.79,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "Al-Hawari Furniture",
-    "value": 395,
-    "usd": 7.68,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "Sky for Travel",
-    "value": 275,
-    "usd": 5.31,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "Two m",
-    "value": 35.96,
-    "usd": 0.69,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "Al-Hawari and Al-Farouk Furniture",
-    "value": 978,
-    "usd": 19.02,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "DOWN 2",
-    "value": 1850.88,
-    "usd": 35.64,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "������� �����",
-    "value": 278,
-    "usd": 5.38,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 520,
-    "usd": 10.07,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������� �����",
-    "value": 47.63,
-    "usd": 0.92,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 800,
-    "usd": 15.49,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "alakhua",
-    "value": 375,
-    "usd": 7.26,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "Sky for Travel",
-    "value": 480,
-    "usd": 9.29,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 188,
-    "usd": 3.65,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 35.13,
-    "usd": 0.68,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "Bashir vegetables",
-    "value": 900,
-    "usd": 17.33,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "������� �����",
-    "value": 83.75,
-    "usd": 1.62,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "Al-Hawari Furniture",
-    "value": 69,
-    "usd": 1.33,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "DRy clean elkoptan",
-    "value": 223,
-    "usd": 4.26,
-    "method": "Not Deducted",
-    "status": "Unknown"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 270,
-    "usd": 5.25,
-    "method": "Not Deducted",
-    "status": "Unknown"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 254.4,
-    "usd": 4.92,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 52,
-    "usd": 1,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ 2",
-    "value": 56.97,
-    "usd": 1.1,
-    "method": "Deducted",
-    "status": "Lost"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 120,
-    "usd": 2.32,
-    "method": "Not Deducted",
-    "status": "Unknown"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 136.84,
-    "usd": 2.65,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 135.96,
-    "usd": 2.64,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 37.72,
-    "usd": 0.73,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "������� �����",
-    "value": 229,
-    "usd": 4.41,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "Perfect",
-    "value": 1557,
-    "usd": 30.28,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "DRy clean elkoptan",
-    "value": 158.99,
-    "usd": 3.09,
-    "method": "",
-    "status": "Unknown"
-  },
-  {
-    "node": "DEX5",
-    "store": "DRy clean elkoptan",
-    "value": 99.99,
-    "usd": 1.94,
-    "method": "",
-    "status": "Unknown"
-  },
-  {
-    "node": "DEX5",
-    "store": "����� �����",
-    "value": 114.04,
-    "usd": 2.2,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 437.72,
-    "usd": 8.47,
-    "method": "Not Deducted",
-    "status": "Unknown"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 19.3,
-    "usd": 0.37,
-    "method": "Not Deducted",
-    "status": "Unknown"
-  },
-  {
-    "node": "DEX5",
-    "store": "������� �����",
-    "value": 59.14,
-    "usd": 1.14,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "DRy clean elkoptan",
-    "value": 62.28,
-    "usd": 1.19,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 299,
-    "usd": 5.79,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "Republic Dry Clean",
-    "value": 160,
-    "usd": 3.05,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������� �����",
-    "value": 876.32,
-    "usd": 16.97,
-    "method": "Not Deducted",
-    "status": "Received at station"
-  },
-  {
-    "node": "DEX5",
-    "store": "Tota's Barber Shop",
-    "value": 800,
-    "usd": 15.56,
-    "method": "Not Deducted",
-    "status": "Deliverd"
-  },
-  {
-    "node": "DEX5",
-    "store": "������ ������� �������",
-    "value": 149.99,
-    "usd": 2.9,
-    "method": "",
-    "status": "Unknown"
-  }
+  { "node": "DEX5", "store": "BLACK& WAhite", "value": 1249, "usd": 24.05, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 285.09, "usd": 5.52, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "Tota's Barber Shop", "value": 300, "usd": 5.79, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "Al-Hawari Furniture", "value": 395, "usd": 7.68, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "Sky for Travel", "value": 275, "usd": 5.31, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "Two m", "value": 35.96, "usd": 0.69, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "Al-Hawari and Al-Farouk Furniture", "value": 978, "usd": 19.02, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "DOWN 2", "value": 1850.88, "usd": 35.64, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "التمساح ماركت", "value": 278, "usd": 5.38, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 520, "usd": 10.07, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "التمساح ماركت", "value": 47.63, "usd": 0.92, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 800, "usd": 15.49, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "alakhua", "value": 375, "usd": 7.26, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "Sky for Travel", "value": 480, "usd": 9.29, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 188, "usd": 3.65, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 35.13, "usd": 0.68, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "Bashir vegetables", "value": 900, "usd": 17.33, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "التمساح ماركت", "value": 83.75, "usd": 1.62, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "Al-Hawari Furniture", "value": 69, "usd": 1.33, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "DRy clean elkoptan", "value": 223, "usd": 4.26, "method": "Not Deducted", "status": "Unknown" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 270, "usd": 5.25, "method": "Not Deducted", "status": "Unknown" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 254.4, "usd": 4.92, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 52, "usd": 1, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "المعلم 2", "value": 56.97, "usd": 1.1, "method": "Deducted", "status": "Lost" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 120, "usd": 2.32, "method": "Not Deducted", "status": "Unknown" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 136.84, "usd": 2.65, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 135.96, "usd": 2.64, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 37.72, "usd": 0.73, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "التمساح ماركت", "value": 229, "usd": 4.41, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "Perfect", "value": 1557, "usd": 30.28, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "DRy clean elkoptan", "value": 158.99, "usd": 3.09, "method": "", "status": "Unknown" },
+  { "node": "DEX5", "store": "DRy clean elkoptan", "value": 99.99, "usd": 1.94, "method": "", "status": "Unknown" },
+  { "node": "DEX5", "store": "مكتبة إسلام", "value": 114.04, "usd": 2.2, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 437.72, "usd": 8.47, "method": "Not Deducted", "status": "Unknown" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 19.3, "usd": 0.37, "method": "Not Deducted", "status": "Unknown" },
+  { "node": "DEX5", "store": "التمساح ماركت", "value": 59.14, "usd": 1.14, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "DRy clean elkoptan", "value": 62.28, "usd": 1.19, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 299, "usd": 5.79, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "Republic Dry Clean", "value": 160, "usd": 3.05, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "التمساح ماركت", "value": 876.32, "usd": 16.97, "method": "Not Deducted", "status": "Received at station" },
+  { "node": "DEX5", "store": "Tota's Barber Shop", "value": 800, "usd": 15.56, "method": "Not Deducted", "status": "Deliverd" },
+  { "node": "DEX5", "store": "فكهانى المدينه المنوره", "value": 149.99, "usd": 2.9, "method": "", "status": "Unknown" }
 ]
