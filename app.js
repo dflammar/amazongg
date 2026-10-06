@@ -1649,7 +1649,7 @@
             statusCounts[s.status] = (statusCounts[s.status] || 0) + 1;
 
             // City
-            const city = s.city || 'ÛíÑ ãÚÑæÝ';
+            const city = s.city || 'ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½';
             cityCounts[city] = (cityCounts[city] || 0) + 1;
 
             // Coverage
@@ -1705,16 +1705,16 @@
         criticalStores.sort((a,b) => b.unrec - a.unrec);
         const tbody = document.getElementById('risk-table-body');
         if (tbody) {
-            tbody.innerHTML = criticalStores.map(c => \
+            tbody.innerHTML = criticalStores.map(c => `
                 <tr>
-                    <td style="font-weight: 600;">\</td>
-                    <td style="text-align: center; color: var(--danger); font-weight: 700;">\%</td>
-                    <td>\ EGP</td>
-                    <td style="font-weight: 700;">\ EGP</td>
-                    <td>\</td>
+                    <td style="font-weight: 600;">${c.name}</td>
+                    <td style="text-align: center; color: var(--danger); font-weight: 700;">${c.unrec}%</td>
+                    <td>${c.cod.toLocaleString()} EGP</td>
+                    <td style="font-weight: 700;">${c.due.toLocaleString()} EGP</td>
+                    <td>${c.city}</td>
                 </tr>
-            \).join('');
-            if (criticalStores.length === 0) tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">áÇ ÊæÌÏ ãÍáÇÊ ÍÑÌÉ</td></tr>';
+            `).join('');
+            if (criticalStores.length === 0) tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ø­Ù„Ø§Øª Ø­Ø±Ø¬Ø©</td></tr>';
         }
 
         if (typeof Chart === 'undefined') return;
@@ -1736,8 +1736,8 @@
                 data: {
                     labels: top10.map(d => d.name),
                     datasets: [
-                        { label: 'ÇáãÏíæäíÉ', data: top10.map(d => d.due), backgroundColor: '#ff5252', borderRadius: 4 },
-                        { label: 'ÇáßÇÔ', data: top10.map(d => d.cod), backgroundColor: '#ff9900', borderRadius: 4 }
+                        { label: 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', data: top10.map(d => d.due), backgroundColor: '#ff5252', borderRadius: 4 },
+                        { label: 'ï¿½ï¿½ï¿½ï¿½ï¿½', data: top10.map(d => d.cod), backgroundColor: '#ff9900', borderRadius: 4 }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } }
@@ -1761,7 +1761,7 @@
         // 5. Capacity Days
         destroyChart('capDays');
         const ctxCap = document.getElementById('chart-capacity-days');
-        const daysLabel = ['ÇáÇËäíä', 'ÇáËáÇËÇÁ', 'ÇáÃÑÈÚÇÁ', 'ÇáÎãíÓ', 'ÇáÌãÚÉ', 'ÇáÓÈÊ', 'ÇáÃÍÏ'];
+        const daysLabel = ['ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½ï¿½ï¿½ï¿½', 'ï¿½ï¿½ï¿½ï¿½ï¿½'];
         const keys = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
         if (ctxCap) {
             analyticsCharts.capDays = new Chart(ctxCap, {
@@ -1786,7 +1786,7 @@
                 type: 'bar',
                 data: {
                     labels: sortedCities.map(c => c[0]),
-                    datasets: [{ label: 'ãÍáÇÊ', data: sortedCities.map(c => c[1]), backgroundColor: '#ff5252', borderRadius: 4 }]
+                    datasets: [{ label: 'ï¿½ï¿½ï¿½ï¿½ï¿½', data: sortedCities.map(c => c[1]), backgroundColor: '#ff5252', borderRadius: 4 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
             });
@@ -1801,7 +1801,7 @@
                 type: 'line',
                 data: {
                     labels: sortedMonths,
-                    datasets: [{ label: 'ãÖÇÝ ÍÏíËÇð', data: sortedMonths.map(m => activationTrend[m]), borderColor: '#ff9900', borderDash: [5, 5], pointBackgroundColor: '#ff9900', fill: false }]
+                    datasets: [{ label: 'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', data: sortedMonths.map(m => activationTrend[m]), borderColor: '#ff9900', borderDash: [5, 5], pointBackgroundColor: '#ff9900', fill: false }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
