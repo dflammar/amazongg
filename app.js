@@ -2331,8 +2331,8 @@
             
             return `
                 <tr>
-                    <td style="font-family: var(--font-en); font-weight: 600;">${item.tracking_id}</td>
-                    <td>${item.date}</td>
+                    <td style="font-family: var(--font-en); font-weight: 600;">${item.node}</td>
+                    
                     <td>${item.store}</td>
                     <td style="color: ${isMissing ? '#ff5252' : '#00e676'}; font-weight: bold;">${item.value.toFixed(2)}</td>
                     <td style="color: var(--text-muted);">${item.usd.toFixed(2)}</td>

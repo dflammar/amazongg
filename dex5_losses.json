@@ -1,33 +1,338 @@
 [
-  {"tracking_id": "AEG3111447511", "date": "7/19/2026", "store": "Asmak alfth", "value": 255, "usd": 5.04, "method": "COD", "reason": "Deducted", "status": "missing- lost"},
-  {"tracking_id": "AEG3115203557", "date": "7/22/2026", "store": "BLACK& WAhite", "value": 365, "usd": 7.11, "method": "COD", "reason": "Not deducted", "status": "recived at station"},
-  {"tracking_id": "AEG3117358378", "date": "7/24/2026", "store": "طيور النجار", "value": 150, "usd": 2.92, "method": "Credit Card", "reason": "Deducted", "status": "missing- lost"},
-  {"tracking_id": "AEG3118349412", "date": "7/25/2026", "store": "Al-Hawari Furniture", "value": 18.41, "usd": 0.35, "method": "Credit Card", "reason": "Not deducted", "status": "recived at station"},
-  {"tracking_id": "AEG3111438106", "date": "7/19/2026", "store": "Asmak alfth", "value": 222, "usd": 4.39, "method": "COD", "reason": "Not deducted", "status": "missing- lost"},
-  {"tracking_id": "AEG3115063465", "date": "7/22/2026", "store": "على العجلاتى", "value": 1558.77, "usd": 30.38, "method": "Credit Card", "reason": "Not deducted", "status": "delivered"},
-  {"tracking_id": "AEG3113671075", "date": "7/21/2026", "store": "Bashir vegetables", "value": 15.73, "usd": 0.3, "method": "COD", "reason": "Not deducted", "status": "recived at station"},
-  {"tracking_id": "AEG3118968590", "date": "7/25/2026", "store": "ماركت رحيم", "value": 550, "usd": 10.71, "method": "COD", "reason": "Not deducted", "status": "delivered"},
-  {"tracking_id": "AEG3116600515", "date": "7/23/2026", "store": "Al-Hawari and Al-Farouk Furniture", "value": 160, "usd": 3.11, "method": "GC", "reason": "Deducted", "status": "missing- lost"},
-  {"tracking_id": "AEG3114523908", "date": "7/21/2026", "store": "طيور النجار", "value": 176.21, "usd": 3.45, "method": "COD", "reason": "Not deducted", "status": "delivered"},
-  {"tracking_id": "AEG3114620928", "date": "7/21/2026", "store": "طيور النجار", "value": 916.67, "usd": 17.96, "method": "COD", "reason": "Not deducted", "status": "delivered"},
-  {"tracking_id": "AEG3111845959", "date": "7/19/2026", "store": "Sky for Travel", "value": 200, "usd": 3.95, "method": "COD", "reason": "Deducted", "status": "missing- lost"},
-  {"tracking_id": "AEG3126911342", "date": "8/1/2026", "store": "Sky for Travel", "value": 75, "usd": 1.46, "method": "Credit Card", "reason": "Deducted", "status": "Missing"},
-  {"tracking_id": "AEG3120172978", "date": "7/26/2026", "store": "طيور النجار", "value": 300, "usd": 5.84, "method": "Credit Card", "reason": "Deducted", "status": "Missing"},
-  {"tracking_id": "AEG3123357945", "date": "7/29/2026", "store": "طيور النجار", "value": 44.88, "usd": 0.88, "method": "Credit Card", "reason": "Not deducted", "status": "Delivered"},
-  {"tracking_id": "AEG3118766226", "date": "7/26/2026", "store": "Tota's Barber Shop", "value": 245.95, "usd": 4.79, "method": "Installment", "reason": "Not deducted", "status": "Missing"},
-  {"tracking_id": "AEG3124556293", "date": "7/29/2026", "store": "Sky for Travel", "value": 690, "usd": 13.61, "method": "COD", "reason": "Deducted", "status": "Missing"},
-  {"tracking_id": "AEG3120424800", "date": "7/26/2026", "store": "Engineering for Electrical Works", "value": 312.28, "usd": 6.08, "method": "COD", "reason": "Deducted", "status": "Delivered"},
-  {"tracking_id": "AEG3119628684", "date": "7/26/2026", "store": "maktabat almisri", "value": 110, "usd": 2.14, "method": "COD", "reason": "Not deducted", "status": "Received at station"},
-  {"tracking_id": "AEG3126329109", "date": "7/31/2026", "store": "بازار الدخاخني 2", "value": 64, "usd": 1.25, "method": "GC", "reason": "Deducted", "status": "Lost"},
-  {"tracking_id": "AEG3126143590", "date": "7/31/2026", "store": "market wael", "value": 570.17, "usd": 11.14, "method": "Credit Card", "reason": "Missing", "status": "Missing"},
-  {"tracking_id": "AEG3123673465", "date": "8/1/2026", "store": "Misho", "value": 425, "usd": 8.3, "method": "Credit Card", "reason": "Missing", "status": "Missing"},
-  {"tracking_id": "AEG3125121407", "date": "7/30/2026", "store": "Engineering for Electrical Works", "value": 42.99, "usd": 0.84, "method": "Credit Card", "reason": "Missing", "status": "Missing"},
-  {"tracking_id": "AEG3122811790", "date": "7/28/2026", "store": "KAREM SALON", "value": 640, "usd": 12.67, "method": "COD", "reason": "Deducted", "status": "Delivered"},
-  {"tracking_id": "AEG3122256652", "date": "7/30/2026", "store": "DOWN 2", "value": 1799.99, "usd": 35.24, "method": "Credit Card", "reason": "Not deducted", "status": "Delivered"},
-  {"tracking_id": "AEG3124635639", "date": "7/30/2026", "store": "DRy clean elkoptan", "value": 325, "usd": 6.36, "method": "COD", "reason": "Missing", "status": "Missing"},
-  {"tracking_id": "AEG3126494487", "date": "7/31/2026", "store": "Pet food", "value": 165, "usd": 3.22, "method": "Credit Card", "reason": "Delivered", "status": "Delivered"},
-  {"tracking_id": "AEG3124659628", "date": "7/30/2026", "store": "مكتبة المستر", "value": 199, "usd": 3.89, "method": "GC", "reason": "Received at station", "status": "Received at station"},
-  {"tracking_id": "AEG3127376621", "date": "8/1/2026", "store": "Better mashal", "value": 45, "usd": 0.87, "method": "Credit Card", "reason": "Lost", "status": "Lost"},
-  {"tracking_id": "AEG3126839875", "date": "7/31/2026", "store": "Pet food", "value": 479, "usd": 9.36, "method": "Credit Card", "reason": "Received at station", "status": "Received at station"},
-  {"tracking_id": "AEG3125680652", "date": "7/30/2026", "store": "Engineering for Electrical Works", "value": 157.89, "usd": 3.09, "method": "Installment", "reason": "Missing", "status": "Missing"}
+  {
+    "node": "DEX5",
+    "store": "BLACK& WAhite",
+    "value": 1249,
+    "usd": 24.05,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 285.09,
+    "usd": 5.52,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "Tota's Barber Shop",
+    "value": 300,
+    "usd": 5.79,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "Al-Hawari Furniture",
+    "value": 395,
+    "usd": 7.68,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "Sky for Travel",
+    "value": 275,
+    "usd": 5.31,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "Two m",
+    "value": 35.96,
+    "usd": 0.69,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "Al-Hawari and Al-Farouk Furniture",
+    "value": 978,
+    "usd": 19.02,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "DOWN 2",
+    "value": 1850.88,
+    "usd": 35.64,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "������� �����",
+    "value": 278,
+    "usd": 5.38,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 520,
+    "usd": 10.07,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������� �����",
+    "value": 47.63,
+    "usd": 0.92,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 800,
+    "usd": 15.49,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "alakhua",
+    "value": 375,
+    "usd": 7.26,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "Sky for Travel",
+    "value": 480,
+    "usd": 9.29,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 188,
+    "usd": 3.65,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 35.13,
+    "usd": 0.68,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "Bashir vegetables",
+    "value": 900,
+    "usd": 17.33,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "������� �����",
+    "value": 83.75,
+    "usd": 1.62,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "Al-Hawari Furniture",
+    "value": 69,
+    "usd": 1.33,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "DRy clean elkoptan",
+    "value": 223,
+    "usd": 4.26,
+    "method": "Not Deducted",
+    "status": "Unknown"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 270,
+    "usd": 5.25,
+    "method": "Not Deducted",
+    "status": "Unknown"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 254.4,
+    "usd": 4.92,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 52,
+    "usd": 1,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ 2",
+    "value": 56.97,
+    "usd": 1.1,
+    "method": "Deducted",
+    "status": "Lost"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 120,
+    "usd": 2.32,
+    "method": "Not Deducted",
+    "status": "Unknown"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 136.84,
+    "usd": 2.65,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 135.96,
+    "usd": 2.64,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 37.72,
+    "usd": 0.73,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "������� �����",
+    "value": 229,
+    "usd": 4.41,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "Perfect",
+    "value": 1557,
+    "usd": 30.28,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "DRy clean elkoptan",
+    "value": 158.99,
+    "usd": 3.09,
+    "method": "",
+    "status": "Unknown"
+  },
+  {
+    "node": "DEX5",
+    "store": "DRy clean elkoptan",
+    "value": 99.99,
+    "usd": 1.94,
+    "method": "",
+    "status": "Unknown"
+  },
+  {
+    "node": "DEX5",
+    "store": "����� �����",
+    "value": 114.04,
+    "usd": 2.2,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 437.72,
+    "usd": 8.47,
+    "method": "Not Deducted",
+    "status": "Unknown"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 19.3,
+    "usd": 0.37,
+    "method": "Not Deducted",
+    "status": "Unknown"
+  },
+  {
+    "node": "DEX5",
+    "store": "������� �����",
+    "value": 59.14,
+    "usd": 1.14,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "DRy clean elkoptan",
+    "value": 62.28,
+    "usd": 1.19,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 299,
+    "usd": 5.79,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "Republic Dry Clean",
+    "value": 160,
+    "usd": 3.05,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������� �����",
+    "value": 876.32,
+    "usd": 16.97,
+    "method": "Not Deducted",
+    "status": "Received at station"
+  },
+  {
+    "node": "DEX5",
+    "store": "Tota's Barber Shop",
+    "value": 800,
+    "usd": 15.56,
+    "method": "Not Deducted",
+    "status": "Deliverd"
+  },
+  {
+    "node": "DEX5",
+    "store": "������ ������� �������",
+    "value": 149.99,
+    "usd": 2.9,
+    "method": "",
+    "status": "Unknown"
+  }
 ]
