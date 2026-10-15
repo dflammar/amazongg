@@ -415,36 +415,64 @@
 
                 <!-- ===== MAP PAGE ===== -->
                 <section class="page" id="page-map">
-                    <div class="page-header">
-                        <div class="page-title">
-                            <h2><i class="fas fa-map-location-dot"></i> خريطة المحلات</h2>
-                            <span class="page-subtitle">عرض جميع المحلات على الخريطة</span>
+                    <!-- Map Stats Bar -->
+                    <div class="map-stats-bar">
+                        <div class="map-stat-item">
+                            <i class="fas fa-store" style="color:#ff9900;"></i>
+                            <span id="map-stat-total">0</span> إجمالي
                         </div>
-                        <div class="page-actions">
-                            <div class="map-controls">
-                                <button class="btn btn-outline" id="show-all-markers" title="عرض جميع المحلات">
-                                    <i class="fas fa-expand"></i> عرض الكل
-                                </button>
-                                <button class="btn btn-outline" id="show-active-only" title="المحلات النشطة فقط">
-                                    <i class="fas fa-filter"></i> النشطة فقط
-                                </button>
-                                <button class="btn btn-outline" id="show-inactive-only" title="المحلات الغير نشطة فقط">
-                                    <i class="fas fa-filter"></i> الغير نشطة فقط
-                                </button>
-                            </div>
+                        <div class="map-stat-item">
+                            <i class="fas fa-check-circle" style="color:#00e676;"></i>
+                            <span id="map-stat-active">0</span> نشط
+                        </div>
+                        <div class="map-stat-item">
+                            <i class="fas fa-times-circle" style="color:#ff5252;"></i>
+                            <span id="map-stat-inactive">0</span> غير نشط
+                        </div>
+                        <div class="map-stat-item">
+                            <i class="fas fa-bullseye" style="color:#40c4ff;"></i>
+                            <span id="map-stat-avg-radius">0</span> م نطاق
                         </div>
                     </div>
+
+                    <!-- Map Toolbar -->
+                    <div class="map-toolbar">
+                        <div class="map-filter-group">
+                            <button class="map-btn active" id="map-filter-all" onclick="window.mapFilterStores('all')">
+                                <i class="fas fa-layer-group"></i> الكل
+                            </button>
+                            <button class="map-btn" id="map-filter-active" onclick="window.mapFilterStores('active')">
+                                <i class="fas fa-check-circle"></i> نشط
+                            </button>
+                            <button class="map-btn" id="map-filter-inactive" onclick="window.mapFilterStores('inactive')">
+                                <i class="fas fa-times-circle"></i> غير نشط
+                            </button>
+                        </div>
+                        <div class="map-search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="map-search-input" placeholder="ابحث عن محل..." oninput="window.mapSearch(this.value)">
+                        </div>
+                        <div class="map-filter-group">
+                            <button class="map-btn" id="map-fit-btn" onclick="window.mapFitAll()">
+                                <i class="fas fa-expand-arrows-alt"></i> تحديد الكل
+                            </button>
+                            <button class="map-btn" id="map-radius-toggle" onclick="window.mapToggleRadius()">
+                                <i class="fas fa-circle-dot"></i> نطاق التغطية
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="map-wrapper">
                         <div id="main-map" class="main-map"></div>
                         <div class="map-sidebar" id="map-sidebar">
                             <div class="map-sidebar-header">
-                                <h4>تفاصيل المحل</h4>
+                                <h4><i class="fas fa-store"></i> تفاصيل المحل</h4>
                                 <button class="close-sidebar-btn" id="close-map-sidebar">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
                             <div class="map-sidebar-content" id="map-sidebar-content">
-                                <p class="map-sidebar-placeholder">اضغط على أي محل على الخريطة لعرض تفاصيله</p>
+                                <p class="map-sidebar-placeholder">اضغط على أي محل لعرض تفاصيله</p>
                             </div>
                         </div>
                     </div>

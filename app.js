@@ -317,7 +317,7 @@
             // 1. Fetch BASE CSV (Always prioritize CSV for status, new stores, and radius)
             let baseStores = [];
             try {
-                const response = await fetch('searchHubsResponse (68).csv');
+                const response = await fetch('searchHubsResponse (69).csv');
                 if (response.ok) {
                     const csvText = await response.text();
                     baseStores = parseCSV(csvText, true); // true = silent, don't set state yet
@@ -1060,16 +1060,70 @@
         }
     }
 
+    // Map state for enhanced features
+    let mapRadiusVisible = true;
+    let mapCircles = [];
+    let mapCurrentFilter = 'all';
+    let mapSearchQuery = '';
+
+    window.mapFilterStores = function(filter) {
+        mapCurrentFilter = filter;
+        document.querySelectorAll('.map-btn[id^="map-filter"]').forEach(b => b.classList.remove('active'));
+        const btn = document.getElementById('map-filter-' + filter);
+        if (btn) btn.classList.add('active');
+        addMainMapMarkers(filter);
+    };
+
+    window.mapSearch = function(query) {
+        mapSearchQuery = query.toLowerCase();
+        addMainMapMarkers(mapCurrentFilter);
+    };
+
+    window.mapFitAll = function() {
+        const bounds = state.stores
+            .filter(s => s.lat && s.lng && !isNaN(s.lat) && !isNaN(s.lng))
+            .map(s => [s.lat, s.lng]);
+        if (bounds.length > 0 && state.maps.main) {
+            state.maps.main.fitBounds(bounds, { padding: [30, 30] });
+        }
+    };
+
+    window.mapToggleRadius = function() {
+        mapRadiusVisible = !mapRadiusVisible;
+        mapCircles.forEach(c => {
+            if (mapRadiusVisible) c.addTo(state.maps.main);
+            else state.maps.main.removeLayer(c);
+        });
+        const btn = document.getElementById('map-radius-toggle');
+        if (btn) btn.classList.toggle('active', mapRadiusVisible);
+    };
+
+    function updateMapStats() {
+        const total = state.stores.length;
+        const active = state.stores.filter(s => s.status === 'Store Active').length;
+        const inactive = total - active;
+        const radii = state.stores
+            .flatMap(s => s.schedule.filter(sch => sch.swStatus === 'ENABLED').map(sch => sch.coverage))
+            .filter(r => r > 0 && r < 2000);
+        const avgRadius = radii.length > 0 ? Math.round(radii.reduce((a,b) => a+b, 0) / radii.length) : 0;
+
+        const el = id => document.getElementById(id);
+        if (el('map-stat-total')) el('map-stat-total').textContent = total;
+        if (el('map-stat-active')) el('map-stat-active').textContent = active;
+        if (el('map-stat-inactive')) el('map-stat-inactive').textContent = inactive;
+        if (el('map-stat-avg-radius')) el('map-stat-avg-radius').textContent = avgRadius;
+    }
+
     function initMainMap() {
         if (state.maps.main) {
             state.maps.main.invalidateSize();
-            // Re-fit bounds
             const bounds = state.stores
                 .filter(s => s.lat && s.lng && !isNaN(s.lat) && !isNaN(s.lng))
                 .map(s => [s.lat, s.lng]);
             if (bounds.length > 0) {
                 state.maps.main.fitBounds(bounds, { padding: [30, 30] });
             }
+            updateMapStats();
             return;
         }
 
@@ -1085,87 +1139,127 @@
 
         state.maps.main = map;
         addMainMapMarkers('all');
+        updateMapStats();
 
-        // Fit bounds
         const bounds = state.stores
             .filter(s => s.lat && s.lng && !isNaN(s.lat) && !isNaN(s.lng))
             .map(s => [s.lat, s.lng]);
         if (bounds.length > 0) {
             map.fitBounds(bounds, { padding: [30, 30] });
         }
-        
-        // Force invalidateSize after initial render
+
         setTimeout(() => map.invalidateSize(), 200);
     }
 
     function addMainMapMarkers(filter) {
-        // Clear existing markers
+        if (!state.maps.main) return;
+        // Clear existing markers and circles
         state.markers.forEach(m => state.maps.main.removeLayer(m));
         state.markers = [];
+        mapCircles.forEach(c => state.maps.main.removeLayer(c));
+        mapCircles = [];
 
         const stores = state.stores.filter(store => {
             if (filter === 'active') return store.status === 'Store Active';
             if (filter === 'inactive') return store.status === 'Store Inactive';
             return true;
+        }).filter(store => {
+            if (!mapSearchQuery) return true;
+            return (store.storeName || '').toLowerCase().includes(mapSearchQuery) ||
+                   (store.city || '').toLowerCase().includes(mapSearchQuery) ||
+                   String(store.storeId || '').includes(mapSearchQuery);
         });
 
         stores.forEach(store => {
-            if (store.lat && store.lng) {
-                const isActive = store.status === 'Store Active';
-                const color = isActive ? '#00e676' : '#ff5252';
-                
-                // Create custom icon
-                const icon = L.divIcon({
-                    className: 'custom-marker',
-                    html: `<div class="marker-pin ${isActive ? 'active' : 'inactive'}">
-                        <i class="fas fa-store"></i>
-                    </div>`,
-                    iconSize: [30, 42],
-                    iconAnchor: [15, 42],
-                    popupAnchor: [0, -42]
-                });
+            if (!store.lat || !store.lng || isNaN(store.lat) || isNaN(store.lng)) return;
+            const isActive = store.status === 'Store Active';
+            const color = isActive ? '#00e676' : '#ff5252';
 
-                const marker = L.marker([store.lat, store.lng], { icon })
-                    .addTo(state.maps.main);
-                
-                marker.bindPopup(`
-                    <div style="text-align:right; direction:rtl; font-family:Tajawal; min-width: 200px;">
-                        <h4 style="margin:0 0 8px; color:#ff9900;">${store.storeName}</h4>
-                        <div style="margin-bottom:4px;"><strong>ID:</strong> ${store.storeId}</div>
-                        <div style="margin-bottom:4px;"><strong>الحالة:</strong> ${isActive ? '✅ نشط' : '❌ غير نشط'}</div>
-                        <div style="margin-bottom:4px;"><strong>المدينة:</strong> ${store.city}</div>
-                        <div style="margin-bottom:4px;"><strong>النطاق:</strong> ${store.deliveryRadius}</div>
-                        <div style="margin-bottom:4px;"><strong>الإحداثيات:</strong> ${store.lat.toFixed(6)}, ${store.lng.toFixed(6)}</div>
-                        <button onclick="window.app.showStoreDetail('${store.storeId}')" 
-                            style="background:#ff9900; border:none; color:#fff; padding:6px 16px; border-radius:6px; cursor:pointer; margin-top:8px; width:100%; font-family:Tajawal;">
-                            عرض التفاصيل
-                        </button>
+            const icon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div class="marker-pin ${isActive ? 'active' : 'inactive'}">
+                    <i class="fas fa-store"></i>
+                </div>`,
+                iconSize: [30, 42],
+                iconAnchor: [15, 42],
+                popupAnchor: [0, -42]
+            });
+
+            const marker = L.marker([store.lat, store.lng], { icon })
+                .addTo(state.maps.main);
+
+            // Get enabled schedule entries
+            const enabledSchedules = store.schedule.filter(s => s.swStatus === 'ENABLED');
+            const totalCap = enabledSchedules.reduce((sum, s) => sum + (s.maxCapacity || 0), 0);
+            const coverageFromSchedule = enabledSchedules.length > 0 ? enabledSchedules[0].coverage : 0;
+            let radiusValue = coverageFromSchedule || 450;
+            if (radiusValue >= 2000) radiusValue = 475;
+
+            // Build schedule table for popup
+            const days = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY'];
+            const dayAr = { MONDAY:'الاثنين', TUESDAY:'الثلاثاء', WEDNESDAY:'الأربعاء', THURSDAY:'الخميس', FRIDAY:'الجمعة', SATURDAY:'السبت', SUNDAY:'الأحد' };
+            const scheduleByDay = {};
+            store.schedule.forEach(s => {
+                if (!scheduleByDay[s.dayOfWeek]) scheduleByDay[s.dayOfWeek] = [];
+                scheduleByDay[s.dayOfWeek].push(s);
+            });
+
+            marker.bindPopup(`
+                <div style="direction:rtl; font-family:Tajawal,sans-serif; min-width:220px; max-width:280px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+                        <div style="width:36px; height:36px; border-radius:8px; background:rgba(255,153,0,0.15); display:flex; align-items:center; justify-content:center; color:#ff9900; font-size:1rem;">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:800; color:#fff; font-size:0.95rem;">${store.storeName}</div>
+                            <div style="font-size:0.75rem; color:#8892b0;">ID: ${store.storeId}</div>
+                        </div>
                     </div>
-                `);
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px; font-size:0.8rem;">
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
+                            <div style="color:#8892b0; margin-bottom:2px;">الحالة</div>
+                            <div style="color:${isActive ? '#00e676' : '#ff5252'}; font-weight:700;">${isActive ? '✓ نشط' : '✗ غير نشط'}</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
+                            <div style="color:#8892b0; margin-bottom:2px;">المدينة</div>
+                            <div style="color:#fff; font-weight:600;">${store.city || '-'}</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
+                            <div style="color:#8892b0; margin-bottom:2px;">نطاق التغطية</div>
+                            <div style="color:#40c4ff; font-weight:700;">${radiusValue}م</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
+                            <div style="color:#8892b0; margin-bottom:2px;">السعة اليومية</div>
+                            <div style="color:#ff9900; font-weight:700;">${totalCap > 0 ? totalCap : '-'}</div>
+                        </div>
+                    </div>
+                    <button onclick="window.app.showStoreDetail('${store.storeId}')"
+                        style="background:#ff9900; border:none; color:#000; padding:8px 16px; border-radius:8px; cursor:pointer; width:100%; font-family:Tajawal,sans-serif; font-weight:700; font-size:0.9rem;">
+                        <i class="fas fa-eye"></i> عرض كامل التفاصيل
+                    </button>
+                </div>
+            `, { maxWidth: 300 });
 
-                // Click to show sidebar
-                marker.on('click', () => {
-                    showMapSidebar(store);
+            marker.on('click', () => showMapSidebar(store));
+            state.markers.push(marker);
+
+            // Delivery radius circle
+            if (isActive) {
+                const circleColor = radiusValue <= 450 ? '#ff0000' : '#ffb300';
+                const circle = L.circle([store.lat, store.lng], {
+                    radius: radiusValue,
+                    color: circleColor,
+                    fillColor: 'transparent',
+                    fillOpacity: 0,
+                    weight: 2
                 });
-
-                // Add delivery radius circle
-                if (isActive) {
-                    const radiusValue = parseInt(store.deliveryRadius) || 375;
-                    L.circle([store.lat, store.lng], {
-                        radius: radiusValue,
-                        color: '#ff0000',
-                        fillColor: 'transparent',
-                        fillOpacity: 0,
-                        weight: 2
-                    }).addTo(state.maps.main);
-                }
-
-                state.markers.push(marker);
+                if (mapRadiusVisible) circle.addTo(state.maps.main);
+                mapCircles.push(circle);
             }
         });
     }
 
-    function showMapSidebar(store) {
+        function showMapSidebar(store) {
         const sidebar = document.getElementById('map-sidebar');
         const content = document.getElementById('map-sidebar-content');
         
