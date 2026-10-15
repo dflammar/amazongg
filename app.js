@@ -1205,40 +1205,40 @@
             });
 
             marker.bindPopup(`
-                <div style="direction:rtl; font-family:Tajawal,sans-serif; min-width:220px; max-width:280px;">
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <div style="width:36px; height:36px; border-radius:8px; background:rgba(255,153,0,0.15); display:flex; align-items:center; justify-content:center; color:#ff9900; font-size:1rem;">
+                <div class="map-custom-popup" style="direction:rtl; font-family:Tajawal,sans-serif; min-width:240px; max-width:300px;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08);">
+                        <div style="width:40px; height:40px; border-radius:10px; background:rgba(255,153,0,0.18); display:flex; align-items:center; justify-content:center; color:#ff9900; font-size:1.1rem; flex-shrink:0;">
                             <i class="fas fa-store"></i>
                         </div>
-                        <div>
-                            <div style="font-weight:800; color:#fff; font-size:0.95rem;">${store.storeName}</div>
-                            <div style="font-size:0.75rem; color:#8892b0;">ID: ${store.storeId}</div>
+                        <div style="flex:1; overflow:hidden;">
+                            <div style="font-weight:800; color:#ff9900 !important; font-size:1.05rem; line-height:1.3; word-break:break-word;">${store.storeName}</div>
+                            <div style="font-size:0.75rem; color:#8892b0; font-family:Inter,sans-serif; margin-top:2px;">ID: ${store.storeId}</div>
                         </div>
                     </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px; font-size:0.8rem;">
-                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
-                            <div style="color:#8892b0; margin-bottom:2px;">الحالة</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; font-size:0.82rem;">
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                            <div style="color:#8892b0; font-size:0.75rem; margin-bottom:2px;">الحالة</div>
                             <div style="color:${isActive ? '#00e676' : '#ff5252'}; font-weight:700;">${isActive ? '✓ نشط' : '✗ غير نشط'}</div>
                         </div>
-                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
-                            <div style="color:#8892b0; margin-bottom:2px;">المدينة</div>
-                            <div style="color:#fff; font-weight:600;">${store.city || '-'}</div>
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                            <div style="color:#8892b0; font-size:0.75rem; margin-bottom:2px;">المدينة</div>
+                            <div style="color:#e8eaf6; font-weight:600;">${store.city || '-'}</div>
                         </div>
-                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
-                            <div style="color:#8892b0; margin-bottom:2px;">نطاق التغطية</div>
-                            <div style="color:#40c4ff; font-weight:700;">${radiusValue}م</div>
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                            <div style="color:#8892b0; font-size:0.75rem; margin-bottom:2px;">نطاق التغطية</div>
+                            <div style="color:#40c4ff; font-weight:700; font-family:Inter,sans-serif;">${radiusValue}م</div>
                         </div>
-                        <div style="background:rgba(255,255,255,0.04); padding:6px 8px; border-radius:6px;">
-                            <div style="color:#8892b0; margin-bottom:2px;">السعة اليومية</div>
-                            <div style="color:#ff9900; font-weight:700;">${totalCap > 0 ? totalCap : '-'}</div>
+                        <div style="background:rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                            <div style="color:#8892b0; font-size:0.75rem; margin-bottom:2px;">السعة اليومية</div>
+                            <div style="color:#ffb300; font-weight:700; font-family:Inter,sans-serif;">${totalCap > 0 ? totalCap : '-'}</div>
                         </div>
                     </div>
                     <button onclick="window.app.showStoreDetail('${store.storeId}')"
-                        style="background:#ff9900; border:none; color:#000; padding:8px 16px; border-radius:8px; cursor:pointer; width:100%; font-family:Tajawal,sans-serif; font-weight:700; font-size:0.9rem;">
+                        style="background:linear-gradient(135deg, #ff9900, #ffb300); border:none; color:#0a0e27; padding:9px 16px; border-radius:8px; cursor:pointer; width:100%; font-family:Tajawal,sans-serif; font-weight:800; font-size:0.9rem; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(255,153,0,0.3); transition:all 0.2s;">
                         <i class="fas fa-eye"></i> عرض كامل التفاصيل
                     </button>
                 </div>
-            `, { maxWidth: 300 });
+            `, { maxWidth: 320 });
 
             marker.on('click', () => showMapSidebar(store));
             state.markers.push(marker);
@@ -1282,7 +1282,7 @@
                     </div>
                     <div class="map-detail-row">
                         <i class="fas fa-bullseye"></i>
-                        <span>نطاق التوصيل: ${store.deliveryRadius}</span>
+                        <span>نطاق التوصيل: ${store.schedule && store.schedule.length ? (store.schedule.find(s => s.swStatus === 'ENABLED')?.coverage || store.schedule[0].coverage || 450) : 450}م</span>
                     </div>
                     <div class="map-detail-row">
                         <i class="fas fa-location-dot"></i>
